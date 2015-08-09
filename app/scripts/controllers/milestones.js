@@ -1,6 +1,17 @@
 'use strict';
 
-glance.controller('MilestonesCtrl', function($scope) {
+glance.controller('MilestonesCtrl', function($scope, $state) {
+
+	$scope.milestones = [
+		{title: 'Rilesstone 1'},
+		{title: 'Hilestone 2'},
+		{title: 'Piletone 3'}
+
+	];
+
+	$scope.selectMilestone = function($index) {
+		$state.go('tasks');
+	}	
 
 	$scope.addMilestone = function(milestone) {
 		console.log(milestone);
@@ -13,9 +24,5 @@ glance.controller('MilestonesCtrl', function($scope) {
 	$scope.removeMilestone = function($index) {
 		console.log("Milestone Removed");
 	}
-
-	$scope.selectMilestone = function($index) {
-		console.log("Project: Milestones");
-	}	
 
 });

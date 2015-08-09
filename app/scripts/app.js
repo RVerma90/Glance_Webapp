@@ -15,7 +15,8 @@ var glance = angular.module('GlanceApp', [
     'ngResource',
     'ngRoute',
     'ui.router',
-    'firebase'
+    'firebase',
+    'ngMaterial'
   ])
 	.constant('FURL', 'https://webapptestings.firebaseio.com/')
   .config(function($stateProvider, $urlRouterProvider) {

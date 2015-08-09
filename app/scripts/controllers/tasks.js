@@ -1,6 +1,17 @@
 'use strict';
 
-glance.controller('TasksCtrl', function($scope) {
+glance.controller('TasksCtrl', function($scope, $state) {
+
+	$scope.tasks = [
+		{title: 'Yask 1'},
+		{title: 'Last 2'},
+		{title: 'Rask 3'}
+
+	];
+
+	$scope.selectTask = function($index) {
+		$state.go('glanceboard');
+	}	
 
 	$scope.addTask = function(task) {
 		console.log(task);
@@ -13,9 +24,5 @@ glance.controller('TasksCtrl', function($scope) {
 	$scope.removeTask = function($index) {
 		console.log("Task Removed");
 	}
-
-	$scope.selectTask = function($index) {
-		console.log("Project: Milestone: Tasks");
-	}	
 
 });

@@ -1,16 +1,9 @@
-<div class="container">
-	<h1>Milestones</h1>
-	<div class="row title">
-		<di class="col-md-6 col-md-offset-3">
-
-			<form ng-submit="addMilestone(milestone)">
-				<input type="text" ng-model="milestone.title" class="form-control" placeholder="Milestone Title" required><br>
-
-				<input type="submit" value="Post" class="btn btn-warning">
-
-
-			</form>
-
-		</div>
-	</div>
+<div>
+  	<md-content class="md-padding">
+  		<md-subheader class="md-no-sticky">Milestones</md-subheader>
+  		<md-list-item ng-repeat="milestone in milestones" ng-click="selectMilestone()">
+    		<p>{{milestone.title}}</p>
+    		<md-icon class="md-secondary" ng-click="doSecondaryAction($event)" aria-label="project" md-svg-icon="communication:message"></md-icon>
+  		</md-list-item>
+  	</md-content>
 </div>

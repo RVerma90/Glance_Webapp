@@ -11,19 +11,20 @@
     <!-- endbower -->
     <!-- endbuild -->
     <!-- build:css(.tmp) styles/main.css -->
+    <link rel="stylesheet" href="bower_components/angular-material/angular-material.css">
     <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/material-design.css">
     <!-- endbuild -->
   </head>
   <body ng-app="GlanceApp">
-
-
+      <div ui-view></div>
 
     <div class="jumbotron">
       <a ui-sref="glanceboard">Glanceboard</a>
       <a ui-sref="projects">Projects</a>
       <a ui-sref="talk">Talk</a>
 
-      <div ui-view></div>
+
     </div>
 
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID 
@@ -50,11 +51,14 @@
     <script src="bower_components/angular-resource/angular-resource.js"></script>
     <script src="bower_components/angular-route/angular-route.js"></script>
     <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+    <script src="bower_components/angular-aria/angular-aria.js"></script>
+    <script src="bower_components/angular-material/angular-material.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
         <!-- build:js({.tmp,app}) scripts/scripts.js -->
         <script src="scripts/app.js"></script>
+        <script src="scripts/material-design.js"></script>
 
         <script src="scripts/controllers/glanceboard.js"></script>        
         <script src="scripts/controllers/projects.js"></script>
