@@ -1,0 +1,26 @@
+<md-dialog aria-label="List dialog">
+
+	<md-dialog-content>
+		<form name="taskform" ng-submit="addT(task)">
+			<div>
+				<md-input-container>
+					<label>Task Title</label>
+					<input ng-model="task.title">
+				</md-input-container>
+				<md-input-container>
+					<label>Description</label>
+					<input ng-model="task.description">
+				</md-input-container>
+				<md-button type="submit" value="Post" class="md-accent">
+       	      		Add
+       	 		</md-button>
+      	 		<md-button ng-click="closeDialog()" class="md-warn">
+            		Close
+        		</md-button>
+			</div>
+		</form>
+  	</md-dialog-content>
+
+</md-dialog>
+
+

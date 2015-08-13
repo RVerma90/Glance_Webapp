@@ -1,9 +1,19 @@
+<md-toolbar><br>User
+</md-toolbar>
+
 <div>
   	<md-content class="md-padding">
   		<md-subheader class="md-no-sticky">Milestones</md-subheader>
   		<md-list-item ng-repeat="milestone in milestones" ng-click="selectMilestone()">
     		<p>{{milestone.title}}</p>
-    		<md-icon class="md-secondary" ng-click="doSecondaryAction($event)" aria-label="project" md-svg-icon="communication:message"></md-icon>
+        <i ng-show="true" class="icon ion-edit"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <i ng-show="true" class="icon ion-trash-b"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <i ng-show="true" class="icon ion-chatbox"></i>
+        <md-divider ng-if="!$last"></md-divider>
   		</md-list-item>
   	</md-content>
 </div>
+
+<md-button class="md-fab static" ng-click="addMilestone($event)" aria-label="Add">
+  <i class="icon ion-plus-round"></i>
+</md-button>

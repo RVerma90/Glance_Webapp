@@ -31,6 +31,11 @@ var glance = angular.module('GlanceApp', [
         templateUrl: 'views/projects.html',
         controller: 'ProjectsCtrl'
       })
+//      .state('newproject', {
+//        url: '/newproject',
+//        templateUrl: 'views/newproject.html',
+//        controller: 'DialogController'
+//      })
       .state('milestones', {
         url: '/milestones',
         templateUrl: 'views/milestones.html',

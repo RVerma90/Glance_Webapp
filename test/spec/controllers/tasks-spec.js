@@ -16,29 +16,16 @@ describe('Controller: TasksCtrl', function () {
     });
   }));
 
-  it('Should add a new milestones', function () {
-      
-    //user adds new milestones
+  it('Should contain three tasks', function () {
+    
+    scope.projects = [
+      {title: 'Roject 1', description: "The first"},
+      {title: 'Sroject 2', description: "The second"},
+      {title: 'Project 3', description: "The third"}
+    ];
+
+    expect(scope.tasks.length).toBe(3);
 
   });
-
-  it('Should edit the selected milestones', function () {
-
-    //only for admins, edit milestones
-
-  });
-
-  it('Should remove selected milestones', function () {
-
-    //only for admins, remove milestones
-
-  });
-
-  it('Should select the milestones', function() {
-
-    //user selects milestoness
-
-  });
-
 
 });

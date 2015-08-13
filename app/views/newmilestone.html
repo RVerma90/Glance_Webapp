@@ -1,0 +1,26 @@
+<md-dialog aria-label="List dialog">
+
+	<md-dialog-content>
+		<form name="milestoneform" ng-submit="addM(milestone)">
+			<div>
+				<md-input-container>
+					<label>Milestone Title</label>
+					<input ng-model="milestone.title">
+				</md-input-container>
+				<md-input-container>
+					<label>Description</label>
+					<input ng-model="milestone.description">
+				</md-input-container>
+				<md-button type="submit" value="Post" class="md-accent">
+       	      		Add
+       	 		</md-button>
+      	 		<md-button ng-click="closeDialog()" class="md-warn">
+            		Close
+        		</md-button>
+			</div>
+		</form>
+  	</md-dialog-content>
+
+</md-dialog>
+
+

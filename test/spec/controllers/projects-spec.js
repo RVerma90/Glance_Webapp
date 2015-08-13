@@ -16,29 +16,23 @@ describe('Controller: ProjectsCtrl', function () {
     });
   }));
 
-  it('Should add a new project', function () {
+  it('Should contain three projects', function () {
+    
+    scope.projects = [
+      {title: 'Roject 1', description: "The first"},
+      {title: 'Sroject 2', description: "The second"},
+      {title: 'Project 3', description: "The third"}
+    ];
+
+    expect(scope.projects.length).toBe(3);
+
+  });
+
+  it('Should open mdDialog for adding new project', function () {
       
     //user adds new project
+    //opens md dialog
 
   });
-
-  it('Should edit the selected project', function () {
-
-    //only for admins, edit project
-
-  });
-
-  it('Should remove selected project', function () {
-
-    //only for admins, remove project
-
-  });
-
-  it('Should select the project', function() {
-
-    //user selects projects
-
-  });
-
 
 });

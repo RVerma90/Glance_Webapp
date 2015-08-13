@@ -16,29 +16,16 @@ describe('Controller: MilestonesCtrl', function () {
     });
   }));
 
-  it('Should add a new milesonte', function () {
-      
-    //user adds new milestone
+  it('Should contain three milestones', function () {
+    
+    scope.milestones = [
+      {title: 'Roject 1', description: "The first"},
+      {title: 'Sroject 2', description: "The second"},
+      {title: 'Project 3', description: "The third"}
+    ];
+
+    expect(scope.milestones.length).toBe(3);
 
   });
-
-  it('Should edit the selected milestone', function () {
-
-    //only for admins, edit milestone
-
-  });
-
-  it('Should remove selected milestone', function () {
-
-    //only for admins, remove milestone
-
-  });
-
-  it('Should select the milestone', function() {
-
-    //user selects milestones
-
-  });
-
 
 });
