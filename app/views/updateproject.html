@@ -1,26 +1,27 @@
-<md-dialog aria-label="Add Project Dialog" flex="0.618">
+<md-dialog aria-label="Edit Project Dialog" flex="0.318">
 
 	<md-dialog-content>
-		<form name="newprojectform" ng-submit="addP(PAmodal)">
+		<form name="updateprojectform" ng-submit="updateP(PEmodal)">
 			<div>
 				<md-input-container>
 					<label>Project Title</label>
-					<input ng-model="PAmodal.project.title">
+					<input ng-model="PEmodal.project.title">
 				</md-input-container>
 				<md-input-container>
 					<label>Description</label>
-					<input ng-model="PAmodal.project.description">
+					<input ng-model="PEmodal.project.description">
 				</md-input-container>
-				<md-button ng-click="add(PAmodal.project)" type="submit" value="Post" class="md-accent">
-       	      		Add
+				<md-button ng-click="update()" type="submit" value="Post" class="md-accent">
+       	      		Done
        	 		</md-button>
       	 		<md-button ng-click="closeDialog()" class="md-warn">
-            		Close
+            		Remove
         		</md-button>
 			</div>
 		</form>
   	</md-dialog-content>
 
 </md-dialog>
+
 
 

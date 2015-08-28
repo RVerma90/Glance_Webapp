@@ -17,15 +17,7 @@ describe('Controller: MilestonesCtrl', function () {
   }));
 
   it('Should contain three milestones', function () {
-    
-    scope.milestones = [
-      {title: 'Roject 1', description: "The first"},
-      {title: 'Sroject 2', description: "The second"},
-      {title: 'Project 3', description: "The third"}
-    ];
-
-    expect(scope.milestones.length).toBe(3);
-
+  
   });
 
 });

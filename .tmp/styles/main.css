@@ -5,5 +5,26 @@
 	right: 10px; 
 }
 
+.toolbarFixed {
+	position: fixed;
+}
 
-/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIm1haW4uY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBLDZCQUE2QjtBQUM3QjtDQUNDLGVBQWU7Q0FDZixhQUFhO0NBQ2IsWUFBWTtDQUNaIiwiZmlsZSI6Im1haW4uY3NzIiwic291cmNlc0NvbnRlbnQiOlsiLypGaXhlZCBwb3NpdGlvbiBGYWIgYnV0dG9uKi9cbi5zdGF0aWMge1xuXHRwb3NpdGlvbjpmaXhlZDsgXG5cdGJvdHRvbTogMTBweDtcblx0cmlnaHQ6IDEwcHg7IFxufVxuXG4iXX0= */
+.sideNav{
+    position: fixed;
+    min-height: 100%;
+    height: 100vh;
+}
+
+.fullheight {
+
+}
+
+
+md-list-item>md-icon.md-secondary {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+    height: 100%;
+}

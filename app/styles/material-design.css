@@ -1,20 +1,3 @@
 /* Angular-Material */
 
-.subheaderdemoBasicUsage .face {
-  border-radius: 30px;
-  border: 1px solid #ddd;
-  width: 48px;
-  margin: 16px; 
-}
-
-body {
-	color: black;
-}
-
 /*Material:List -> Projects, Milestones, Tasks*/
-.carddemoBasicUsage md-card {
-  min-height: 150px; }
-
- 
-
- 

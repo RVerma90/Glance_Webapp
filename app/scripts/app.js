@@ -18,8 +18,11 @@ var glance = angular.module('GlanceApp', [
     'firebase',
     'ngMaterial'
   ])
-	.constant('FURL', 'https://webapptestings.firebaseio.com/')
+	.constant('FURL', 'https://webapptesting.firebaseio.com/')
   .config(function($stateProvider, $urlRouterProvider) {
+
+    $urlRouterProvider.otherwise('/projects');
+
     $stateProvider
       .state('glanceboard', {
         url: '/glanceboard',
@@ -31,18 +34,13 @@ var glance = angular.module('GlanceApp', [
         templateUrl: 'views/projects.html',
         controller: 'ProjectsCtrl'
       })
-//      .state('newproject', {
-//        url: '/newproject',
-//        templateUrl: 'views/newproject.html',
-//        controller: 'DialogController'
-//      })
       .state('milestones', {
-        url: '/milestones',
+        url: '/milestones/:pid',
         templateUrl: 'views/milestones.html',
         controller: 'MilestonesCtrl'
       })
       .state('tasks', {
-        url: '/tasks',
+        url: '/tasks/:mid',
         templateUrl: 'views/tasks.html',
         controller: 'TasksCtrl'
       })
@@ -50,6 +48,8 @@ var glance = angular.module('GlanceApp', [
         url: '/talk',
         templateUrl: "views/talk.html",
         controller: "TalkCtrl"
-      })
+      });
+
     }
-  );
+  )
+  .run(['$state', function ($state) {}]);

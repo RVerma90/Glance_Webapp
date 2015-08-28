@@ -1,19 +1,22 @@
-<md-toolbar><br>User
-</md-toolbar>
-
 <div>
-  	<md-content class="md-padding">
-  		<md-subheader class="md-no-sticky">Milestones</md-subheader>
-  		<md-list-item ng-repeat="milestone in milestones" ng-click="selectMilestone()">
-    		<p>{{milestone.title}}</p>
-        <i ng-show="true" class="icon ion-edit"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        <i ng-show="true" class="icon ion-trash-b"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        <i ng-show="true" class="icon ion-chatbox"></i>
-        <md-divider ng-if="!$last"></md-divider>
-  		</md-list-item>
-  	</md-content>
+    <md-content class="md-padding">
+      <md-subheader class="md-no-sticky">Milestones</md-subheader>
+      <md-list>
+        <md-list-item ng-repeat="milestone in milestones" ng-click="selectMilestone(milestone)">
+          <p class="md-primary">{{milestone.title}} - {{milestone.description}}</p>
+          
+          <div>
+            <i md-no-ink ng-click="updateMilestone($event, milestone)" class="icon ion-edit md-icon-button md-secondary" aria-label="Update Milestone">
+            </i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    
+          </div>
+          <md-divider ng-if="!$last"></md-divider>
+        </md-list-item>
+      <md-list>
+    </md-content>
 </div>
 
-<md-button class="md-fab static" ng-click="addMilestone($event)" aria-label="Add">
-  <i class="icon ion-plus-round"></i>
+<md-button class="md-fab static" ng-click="addMilestone($event)" aria-label="Add Milestone">
+  <md-tooltip>Add milestone</md-tooltip>
+    <i class="icon ion-plus-round"></i>
 </md-button>

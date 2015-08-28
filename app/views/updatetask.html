@@ -1,26 +1,27 @@
-<md-dialog aria-label="Add Task Dialog" flex="0.618">
+<md-dialog aria-label="Edit Task Dialog" flex="0.318">
 
 	<md-dialog-content>
-		<form name="newtaskform" ng-submit="addT(TAmodal)">
+		<form name="updatetaskform" ng-submit="updateT(TEmodal)">
 			<div>
 				<md-input-container>
 					<label>Task Title</label>
-					<input ng-model="TAmodal.task.title">
+					<input ng-model="TEmodal.task.title">
 				</md-input-container>
 				<md-input-container>
 					<label>Description</label>
-					<input ng-model="TAmodal.task.description">
+					<input ng-model="TEmodal.task.description">
 				</md-input-container>
-				<md-button ng-click="add(TAmodal.task)" type="submit" value="Post" class="md-accent">
-       	      		Add
+				<md-button ng-click="update()" type="submit" value="Post" class="md-accent">
+       	      		Done
        	 		</md-button>
       	 		<md-button ng-click="closeDialog()" class="md-warn">
-            		Close
+            		Remove
         		</md-button>
 			</div>
 		</form>
   	</md-dialog-content>
 
 </md-dialog>
+
 
 

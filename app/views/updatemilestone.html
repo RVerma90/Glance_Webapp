@@ -1,21 +1,21 @@
-<md-dialog aria-label="Add Milestone Dialog" flex="0.618">
+<md-dialog aria-label="Edit Milestone Dialog" flex="0.318">
 
 	<md-dialog-content>
-		<form name="newmilestoneform" ng-submit="addM(MAmodal)">
+		<form name="updatemilestoneform" ng-submit="updateM(MEmodal)">
 			<div>
 				<md-input-container>
 					<label>Milestone Title</label>
-					<input ng-model="MAmodal.milestone.title">
+					<input ng-model="MEmodal.milestone.title">
 				</md-input-container>
 				<md-input-container>
 					<label>Description</label>
-					<input ng-model="MAmodal.milestone.description">
+					<input ng-model="MEmodal.milestone.description">
 				</md-input-container>
-				<md-button ng-click="add(MAmodal.milestone)" type="submit" value="Post" class="md-accent">
-       	      		Add
+				<md-button ng-click="update()" type="submit" value="Post" class="md-accent">
+       	      		Done
        	 		</md-button>
       	 		<md-button ng-click="closeDialog()" class="md-warn">
-            		Close
+            		Remove
         		</md-button>
 			</div>
 		</form>

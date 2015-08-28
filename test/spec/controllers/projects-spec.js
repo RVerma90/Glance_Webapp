@@ -16,15 +16,11 @@ describe('Controller: ProjectsCtrl', function () {
     });
   }));
 
+  // updateProject, addProject, select project
+
   it('Should contain three projects', function () {
     
-    scope.projects = [
-      {title: 'Roject 1', description: "The first"},
-      {title: 'Sroject 2', description: "The second"},
-      {title: 'Project 3', description: "The third"}
-    ];
 
-    expect(scope.projects.length).toBe(3);
 
   });
 
