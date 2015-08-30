@@ -4,10 +4,11 @@
 
     <md-sidenav class="md-sidenav-left md-whiteframe-z2 sideNav" md-component-id="left" md-is-locked-open="$mdMedia('gt-sm')" layout="column">
       <md-toolbar class="md-medium-tall" layout="column">
-          <h1 class="md-toolbar-tools">user name</h1>
+
+        <h1 class="md-toolbar-tools">Rahul Verma</h1>
       </md-toolbar>
 
-      <md-content layout="column" flex>
+      <md-content flex>
         <md-list>
           <md-list-item ng-click="goGlanceboard()">
             Glanceboard
@@ -30,25 +31,19 @@
 
     </md-sidenav>
 
-  
-    <div flex layout="column">
-      <md-toolbar layout="row" class="toolbarFixed">
+    <div layout="column" flex>
 
-        <md-button class="menu" hide-gt-sm ng-click="toggleNavbar()">
-          <i md-no-ink class="icon ion-grid " aria-label="Toggle Navbar"></i>        
+      <md-toolbar layout="row">
+        <md-button class="menu" hide-gt-sm aria-label="Toggle Navbar" ng-click="toggleNavbar()">
+          <i md-no-ink class="icon ion-grid"></i>        
         </md-button>
-
-        <h1 class="md-toolbar-tools">glanceapp</h1>
-
+        <h1 class="md-toolbar-tools">Projects</h1>
       </md-toolbar>
 
-
-
-      <div ui-view></div>
+      <md-content ui-view style="overflow-y: scroll; max-height: 80vh;" flex layout-padding>
+      </md-content>
 
     </div>
 
   </section>
-
-
 </div>
