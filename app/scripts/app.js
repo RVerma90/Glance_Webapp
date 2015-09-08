@@ -21,16 +21,26 @@ var glance = angular.module('GlanceApp', [
 	.constant('FURL', 'https://webapptesting.firebaseio.com/')
   .config(function($stateProvider, $urlRouterProvider) {
 
-    $urlRouterProvider.otherwise('/projects');
+    $urlRouterProvider.otherwise('/');
 
     $stateProvider
+      .state('signin', {
+        url: '/signin',
+        templateUrl: 'views/signin.html',
+        controller: 'AuthController'
+      })
+      .state('signup', {
+        url: '/signup',
+        templateUrl: 'views/signup.html',
+        controller: 'AuthController'
+      })
       .state('glanceboard', {
-        url: '/glanceboard',
+        url: '/glanceboard/:uid',
         templateUrl: 'views/glanceboard.html',
         controller: 'GlanceCtrl'
       })
       .state('projects', {
-        url: '/projects',
+        url: '/projects/:uid',
         templateUrl: 'views/projects.html',
         controller: 'ProjectsCtrl'
       })

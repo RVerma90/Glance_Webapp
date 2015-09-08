@@ -14,7 +14,7 @@ glance.controller('MilestonesCtrl',
 	$scope.milestones = FBmilestones;
 
 	$scope.selectMilestone = function(milestone) {
-		$state.transitionTo("tasks", {pid: milestone.$id});
+		$state.transitionTo("tasks", {mid: milestone.$id});
 		console.log(milestone.$id);
 
 

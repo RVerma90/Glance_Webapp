@@ -1,6 +1,8 @@
 'use strict';
 
-glance.controller("NavCtrl", function($scope, $state, $stateParams, $mdSidenav) {
+glance.controller("NavCtrl", function($scope, $state, $stateParams, $mdSidenav, Auth) {
+
+  $scope.signedIn = Auth.signedIn;
 
   $scope.close = function() {
     $mdSidenav('left').close();
@@ -30,6 +32,22 @@ glance.controller("NavCtrl", function($scope, $state, $stateParams, $mdSidenav) 
     $mdSidenav('left').close();
 
   };    
+
+  $scope.settings = function() {
+    console.log('settings');
+  };
+
+  $scope.logout = function() {
+    Auth.logout();
+    $state.go('signin');
+  };
+
+
+
+
+
+
+
 
 });
 

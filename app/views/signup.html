@@ -1,0 +1,37 @@
+
+<div layout="row">
+
+	<md-content flex="50" offset="25" layout="column">
+	
+		<form ng-submit="register(user)">
+
+			<md-input-container>
+				<label>Email</label>
+				<input type="email" ng-model="user.email" required>
+			</md-input-container>
+			<md-input-container>
+				<label>First Name</label>
+				<input type="text" ng-model="user.firstname" required>
+			</md-input-container>
+			<md-input-container>
+				<label>Last Name</label>
+				<input type="text" ng-model="user.lastname" required>
+			</md-input-container>
+			<md-input-container>
+				<label>Password</label>
+				<input type="password" ng-model="user.password" required>
+			</md-input-container>
+
+			<md-input-container>
+				<md-button type="submit" class="md-raised md-primary">
+					Register
+				</md-button>
+			</md-input-container>
+
+		</form>
+			
+		<md-button ng-click="registerG()" class="md-raised md-warn">Google</md-button>
+
+	</md-content>
+	
+</div>
