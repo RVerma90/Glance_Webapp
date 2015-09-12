@@ -1,8 +1,8 @@
 <div>
     <md-content class="md-padding">
-      <md-subheader class="md-no-sticky">Tasks</md-subheader>
+      <!-- <md-subheader class="md-no-sticky">Tasks</md-subheader> -->
       <md-list>
-        <md-list-item ng-repeat="task in tasks" ng-click="selectTask($index)">
+        <md-list-item class="slide" ng-repeat="task in tasks" ng-click="selectTask($index)">
           <p class="md-primary">{{task.title}} - {{task.description}}</p>
 
           <div>

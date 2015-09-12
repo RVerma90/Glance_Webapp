@@ -1,15 +1,19 @@
 'use strict';
 
-glance.controller('AuthController', function($scope, $state, Auth, FURL, $firebaseAuth, $firebaseArray) {
+glance.controller('AuthCtrl', function($scope, $state, $location, Auth) {
 
-	var authData = Auth.user;
+  if(Auth.signedIn()) {
+    $state.transitionTo('glanceboard');
+  } 
+
+	$scope.currentUser = Auth.user;
 
 	$scope.register = function(user) {
+		//Auth.logout();
+
 		Auth.register(user)
-		.then(function(){
-			console.log("Registered user: ", user);
-			console.log("Registered user: ", authData);
-			$state.transitionTo("glanceboard", {uid: user.uid});
+		.then(function() {
+			$state.go("projects");
 		})
 		.catch(function(error) {
 			console.log("controller: Could not register");
@@ -29,11 +33,11 @@ glance.controller('AuthController', function($scope, $state, Auth, FURL, $fireba
 	};
 	
 	$scope.login = function(user) {
-		Auth.logout();
+		//Auth.logout();
 
 		Auth.login(user)
 		.then(function() {
-			$state.transitionTo("glanceboard", {uid: "authData.uid"});
+			$state.go("glanceboard");
 		})
 		.catch(function(err) {
 			console.log('Could not login');

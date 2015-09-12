@@ -3,13 +3,25 @@
 glance.factory('Auth', function(FURL, $firebaseAuth, $firebaseObject, $firebaseArray) {
 
 	var ref = new Firebase(FURL);
+	var profileRef = ref.child('profile');
+	
 	var auth = $firebaseAuth(ref);
 
 	var Auth = {
 
 		user: {},
-		
 
+		createProfile: function(uid, user) {
+			var profile = {
+				firstName: user.firstName,
+				lastName: user.lastName,
+				email: user.email,
+				uid: uid,
+				dateReg: Firebase.ServerValue.TIMESTAMP
+			}
+			return console.log(profile);
+			//return ref.child('users').child(uid).child('profile').set(profile);			
+		},
 
 		login: function(user) {
 			return auth.$authWithPassword({
@@ -30,16 +42,17 @@ glance.factory('Auth', function(FURL, $firebaseAuth, $firebaseObject, $firebaseA
 			.then(function(authData) {
 				console.log("login: Logged in with uid: ", authData);
 			})
-			.then(function(authData) {
-				//access user data
-			})
 			.catch(function(error) {
 				alert("Error: " + error);
 			});
 
 		},
-		register: function(user) {
 
+		getProfile: function(uid) {
+			return $firebaseObject(profileRef.child(uid));
+		},
+
+		register: function(user) {
 			return auth.$createUser(
 				{
 					email: user.email,
@@ -59,22 +72,14 @@ glance.factory('Auth', function(FURL, $firebaseAuth, $firebaseObject, $firebaseA
 					}
 				})
 				.then(function(authData){
-					console.log("Auth.register: Registered new user:", authData.uid);
-					
-					Auth.login(user);
-
-					//storing before hand,as authData is not passed not following .then()
 					user.uid = authData.uid;
-					delete user.password;
-
+					return Auth.login(user);
 				})
 				.then(function() {
 					var uid = user.uid;
+					delete user.password;
 					user.dateReg = Firebase.ServerValue.TIMESTAMP;
-					return ref.child('users').child(uid).child('profile').set(user);
-				})
-				.then(function() {
-					//access user data
+					return ref.child('users').child(uid).child('profile').set(user);					
 				})
 				.catch(function(error) {
 					alert("Error: " + error);
@@ -87,7 +92,6 @@ glance.factory('Auth', function(FURL, $firebaseAuth, $firebaseObject, $firebaseA
 					console.log(authData);
 				});
 		},
-
 
 		logout: function() {
 			auth.$unauth();
@@ -103,22 +107,13 @@ glance.factory('Auth', function(FURL, $firebaseAuth, $firebaseObject, $firebaseA
 
 		signedIn: function() {
 			return !!Auth.user.provider;
+		},
+
+		requireAuth: function() {
+			return auth.$requireAuth();
 		}
 
 	};
-	ref.onAuth(function(authData) {
-		if(authData) {
-			angular.copy(authData, Auth.user);
-			Auth.user.profile = $firebaseObject(ref.child('users').child(authData.uid));
-		} else {
-			if(auth.user && Auth.user.profile) {
-				Auth.user.profile.$destroy();
-			}
-			angular.copy({}, Auth.user);
-		}
-
-	});
-
 
 	auth.$onAuth(function(authData) {
 		if(authData) {

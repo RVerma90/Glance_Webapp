@@ -1,8 +1,8 @@
 <div>
   	<md-content class="md-padding">
-  		<md-subheader class="md-no-sticky">Projects</md-subheader>
+  		<!-- <md-subheader class="md-no-sticky">Projects</md-subheader> -->
       <md-list>
-    		<md-list-item ng-repeat="project in projects" ng-click="selectProject(project)">
+    		<md-list-item class="slide" ng-repeat="project in projects" ng-click="selectProject(project)">
           <p class="md-primary">{{project.title}} - {{project.description}}</p>
 
           <div>

@@ -1,0 +1,36 @@
+/*Within State UI*/
+.slide {
+	will-change: transform, opacity;
+	transition: ease-out 0.3s;
+}
+
+.slide.ng-enter-stagger {
+	transition-delay: 0.05s;
+	transition-duration: 0s;
+}
+
+.slide.ng-leave-stagger {
+	transition-delay: 0.05s;
+	transition-duration: 0s;
+}
+
+.slide.ng-enter {
+	opacity: 0;
+	left: +25px;
+}
+
+.slide.ng-enter-active{
+	opacity: 1;
+	left: 0px;
+}
+
+.slide.ng-leave {
+	opacity: 1;
+	left: 0px;
+}
+
+.slide.ng-leave-active{
+	opacity: 0;
+	left: +25px;
+}
+/*Within State UI*/

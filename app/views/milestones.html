@@ -1,8 +1,8 @@
 <div>
     <md-content class="md-padding">
-      <md-subheader class="md-no-sticky">Milestones</md-subheader>
+      <!-- <md-subheader class="md-no-sticky">Milestones</md-subheader> -->
       <md-list>
-        <md-list-item ng-repeat="milestone in milestones" ng-click="selectMilestone(milestone)">
+        <md-list-item class="slide" ng-repeat="milestone in milestones" ng-click="selectMilestone(milestone)">
           <p class="md-primary">{{milestone.title}} - {{milestone.description}}</p>
           
           <div>
