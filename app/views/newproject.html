@@ -11,10 +11,10 @@
 					<label>Description</label>
 					<input ng-model="PAmodal.project.description">
 				</md-input-container>
-				<md-button ng-click="add(PAmodal.project)" type="submit" value="Post" class="md-accent">
+				<md-button ng-click="PAmodal.add(PAmodal.project)" type="submit" value="Post" class="md-accent">
        	      		Add
        	 		</md-button>
-      	 		<md-button ng-click="closeDialog()" class="md-warn">
+      	 		<md-button ng-click="PAmodal.closeDialog()" class="md-warn">
             		Close
         		</md-button>
 			</div>

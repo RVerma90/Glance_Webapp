@@ -20,7 +20,7 @@
 
 .slide.ng-enter {
 	opacity: 0;
-	left: +25px;
+	/*left: +25px;*/
 }
 
 .slide.ng-enter-active{
@@ -35,6 +35,6 @@
 
 .slide.ng-leave-active{
 	opacity: 0;
-	left: +25px;
+	/*left: +25px;*/
 }
 /*Within State UI*/

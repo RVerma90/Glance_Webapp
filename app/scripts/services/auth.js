@@ -3,7 +3,7 @@
 glance.factory('Auth', function(FURL, $firebaseAuth, $firebaseObject, $firebaseArray) {
 
 	var ref = new Firebase(FURL);
-	var profileRef = ref.child('profile');
+	var profileRef = ref.child('users');
 	
 	var auth = $firebaseAuth(ref);
 
@@ -49,7 +49,7 @@ glance.factory('Auth', function(FURL, $firebaseAuth, $firebaseObject, $firebaseA
 		},
 
 		getProfile: function(uid) {
-			return $firebaseObject(profileRef.child(uid));
+			return $firebaseArray(profileRef.child(uid));
 		},
 
 		register: function(user) {

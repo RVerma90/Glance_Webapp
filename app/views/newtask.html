@@ -11,10 +11,10 @@
 					<label>Description</label>
 					<input ng-model="TAmodal.task.description">
 				</md-input-container>
-				<md-button ng-click="add(TAmodal.task)" type="submit" value="Post" class="md-accent">
+				<md-button ng-click="TAmodal.add(TAmodal.task)" type="submit" value="Post" class="md-accent">
        	      		Add
        	 		</md-button>
-      	 		<md-button ng-click="closeDialog()" class="md-warn">
+      	 		<md-button ng-click="TAmodal.closeDialog()" class="md-warn">
             		Close
         		</md-button>
 			</div>
