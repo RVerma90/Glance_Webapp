@@ -7,15 +7,17 @@ glance.controller('TasksCtrl',
 			 Tasks,
 			 $stateParams) {
 
-	$scope.tasks = Tasks.show();
+	var milestone = $stateParams.mid;
+
+	$scope.tasks = Tasks.show(milestone);
 
 	$scope.selectTask = function($stateParam, task) {
 		$state.go('glanceboard');
 
 	};
 
-	$scope.addTask = function(e) {
-		Tasks.add(e);
+	$scope.addTask = function(e, task) {
+		Tasks.add(e, task);
 	};
 
 	$scope.updateTask = function(e, task) {

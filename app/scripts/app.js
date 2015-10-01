@@ -18,10 +18,10 @@ var glance = angular.module('GlanceApp', [
     'firebase',
     'ngMaterial'
   ])
-	.constant('FURL', 'https://webapptesting.firebaseio.com/')
+	.constant('FURL', 'https://fiery-inferno-5671.firebaseio.com/')
   .config(function($stateProvider, $urlRouterProvider) {
 
-    $urlRouterProvider.otherwise('/signin');
+    $urlRouterProvider.otherwise('/');
 
     $stateProvider
       .state('signin', {
@@ -33,7 +33,12 @@ var glance = angular.module('GlanceApp', [
         url: '/signup',
         templateUrl: 'views/signup.html',
         controller: 'AuthCtrl'        
-      })    
+      })
+      .state('auth', {
+        url: '/',
+        templateUrl: 'views/auth.html',
+        controller: 'AuthCtrl'        
+      })          
       .state('glanceboard', {
         url: '/glanceboard/:uid',
         templateUrl: 'views/glanceboard.html',
@@ -65,7 +70,7 @@ var glance = angular.module('GlanceApp', [
         templateUrl: 'views/milestones.html',
         controller: 'MilestonesCtrl',
         data: {
-          stateName: 'Milestones'
+          stateName: 'Milestones' //change to project id and name?
         },        
         resolve: {
           currentAuth: ['Auth', function(Auth) {
@@ -78,7 +83,7 @@ var glance = angular.module('GlanceApp', [
         templateUrl: 'views/tasks.html',
         controller: 'TasksCtrl',
         data: {
-          stateName: 'Tasks'
+          stateName: 'Tasks' // change to project and  milestone id and name?
         },        
         resolve: {
           currentAuth: ['Auth', function(Auth) {
@@ -99,9 +104,23 @@ var glance = angular.module('GlanceApp', [
           }]
         }               
       })
+      .state('contacts', {
+        url: '/contacts',
+        templateUrl: "views/contacts.html",
+        controller: "ContactsCtrl",
+        data: {
+          stateName: 'Contacts'
+        },        
+        resolve: {
+          currentAuth: ['Auth', function(Auth) {
+            return Auth.requireAuth();
+          }]
+        }               
+      })      
       .state('settings', {
         url: '/settings',
         templateUrl: "views/settings.html",
+        controller: "SettingsCtrl",
         data: {
           stateName: 'Settings'
         },        

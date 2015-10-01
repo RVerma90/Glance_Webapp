@@ -7,11 +7,13 @@ glance.controller('ProjectsCtrl',
 			 Projects,
 			 $stateParams) {
 
-	$scope.projects = Projects.show();
+	$scope.projects = Projects.show();		
+
+	//no need for auth.uid
 
 	$scope.selectProject = function(project) {
-		$state.transitionTo("milestones", {pid: project.$id});
-		console.log(project.$id);
+		$state.transitionTo("milestones", {pid: project.projectID});
+		console.log(project.projectID);
 	};
 
 	$scope.addProject = function(e) {

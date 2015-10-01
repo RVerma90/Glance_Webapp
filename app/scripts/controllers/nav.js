@@ -3,7 +3,6 @@
 glance.controller("NavCtrl", function($scope, $state, $stateParams, $mdSidenav, Auth) {
 
   $scope.currentUser = Auth.user;
-
   $scope.signedIn = Auth.signedIn;
 
   $scope.close = function() {
@@ -28,6 +27,11 @@ glance.controller("NavCtrl", function($scope, $state, $stateParams, $mdSidenav, 
     $state.go("talk");
     $mdSidenav('left').close();
   };    
+
+  $scope.goProfile = function() {
+    $state.go("contacts");
+    $mdSidenav('left').close();
+  };
 
   $scope.goSettings = function() {
     $state.go("settings");

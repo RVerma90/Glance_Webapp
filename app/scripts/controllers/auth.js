@@ -12,7 +12,8 @@ glance.controller('AuthCtrl', function($scope, $state, $location, Auth) {
 		//Auth.logout();
 
 		Auth.register(user)
-		.then(function() {
+		.then(function(test) {
+
 			$state.go("projects");
 		})
 		.catch(function(error) {

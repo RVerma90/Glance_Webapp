@@ -1,29 +1,43 @@
 <div>
-  	<md-content class="md-padding">
-  		<!-- <md-subheader class="md-no-sticky">Projects</md-subheader> -->
-      <md-list>
-    		<md-list-item class="slide" ng-repeat="message in messages" ng-click="selectProject(project)">
-          <p class="md-primary">{{message.title}}</p>
+    <md-content class="md-padding">
 
-          <md-divider ng-if="!$last"></md-divider>
-    		</md-list-item>
-      <md-list>
-  	</md-content>
+      <md-tabs md-dynamic-height class="bgblack" >
+        <md-tab label="Tasks">
+
+        <md-list>
+            <md-list-item class="md-2-line contact-item slide" ng-repeat="contact in contacts" ng-click="selectProject(project)">
+
+              <md-divider ng-if="!$last"></md-divider>
+            </md-list-item>
+          <md-list>       
+
+        </md-tab>
+
+        <md-tab label="Milestones">
+
+        <md-list>
+            <md-list-item class="md-2-line contact-item slide" ng-repeat="request in requests" ng-click="acceptRequest(request)">             
+
+              <md-divider ng-if="!$last"></md-divider>
+            </md-list-item>
+          <md-list>
+
+        </md-tab>
+
+        <md-tab label="Projects">
+
+        <md-list>
+            <md-list-item class="md-2-line contact-item slide" ng-repeat="contact in contacts" ng-click="selectProject(project)">
+
+
+              <md-divider ng-if="!$last"></md-divider>
+            </md-list-item>
+          <md-list>       
+
+        </md-tab>
+
+      </md-tabs md-dynamic-height>
+
+    </md-content>
 </div>
 
-
-
-
-
-
-		<form name="newprojectform">
-			<div>
-				<md-input-container>
-					<label>Message</label>
-					<input ng-model="message.title">
-				</md-input-container>
-				<md-button ng-click="addMessage(message)" type="submit" value="Post" class="md-accent">
-       	      		Add
-       	 		</md-button>
-			</div>
-		</form>

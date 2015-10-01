@@ -11,6 +11,12 @@
 					<label>Description</label>
 					<input ng-model="TEmodal.task.description">
 				</md-input-container>
+				<md-input-container>
+			      <md-slider flex ng-model="TEmodal.task.priority" min="0" max="5" aria-label="slider" class="md-accent"></md-slider>
+				</md-input-container>
+
+				<!--<md-datepicker ng-model="PEmodal.project.deadline" md-placeholder="Deadline"></md-datepicker> -->
+
 				<md-button ng-click="TEmodal.update()" type="submit" value="Post" class="md-accent">
        	      		Done
        	 		</md-button>

@@ -1,9 +1,18 @@
 'user strict';
 
-glance.factory('refuser', function() {
-	return {
-		ref: 'something'
-	}
+glance.factory('User', function(FURL) {
+	
+	var ref = new Firebase(FURL);
+
+	var projectsRef = ref.child('projects');
+
+
+	var User = {
+
+	};
+
+	return User;
+
 });
 
 

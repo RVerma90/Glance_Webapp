@@ -1,4 +1,4 @@
-'user strict';
+'use strict';
 
 glance.factory('Auth', function(FURL, $firebaseAuth, $firebaseObject, $firebaseArray) {
 
@@ -21,6 +21,16 @@ glance.factory('Auth', function(FURL, $firebaseAuth, $firebaseObject, $firebaseA
 			}
 			return console.log(profile);
 			//return ref.child('users').child(uid).child('profile').set(profile);			
+		},
+
+		getProfile: function(uid) {
+			
+			auth.$onAuth(function(authData) {
+				TheUser = authData.uid;
+				console.log("test",TheUser);
+
+			});
+			
 		},
 
 		login: function(user) {
@@ -46,10 +56,6 @@ glance.factory('Auth', function(FURL, $firebaseAuth, $firebaseObject, $firebaseA
 				alert("Error: " + error);
 			});
 
-		},
-
-		getProfile: function(uid) {
-			return $firebaseArray(profileRef.child(uid));
 		},
 
 		register: function(user) {
@@ -79,7 +85,7 @@ glance.factory('Auth', function(FURL, $firebaseAuth, $firebaseObject, $firebaseA
 					var uid = user.uid;
 					delete user.password;
 					user.dateReg = Firebase.ServerValue.TIMESTAMP;
-					return ref.child('users').child(uid).child('profile').set(user);					
+					return ref.child('users').child(uid).set(user);					
 				})
 				.catch(function(error) {
 					alert("Error: " + error);
@@ -118,7 +124,7 @@ glance.factory('Auth', function(FURL, $firebaseAuth, $firebaseObject, $firebaseA
 	auth.$onAuth(function(authData) {
 		if(authData) {
 			angular.copy(authData, Auth.user);
-			Auth.user.profile = $firebaseObject(ref.child('users').child(authData.uid));
+			Auth.user.userData = $firebaseObject(profileRef.child(authData.uid));
 		} else {
 			if(Auth.user && Auth.user.profile) {
 				Auth.user.profile.$destroy();

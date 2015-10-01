@@ -2,7 +2,7 @@
 <html ng-app="GlanceApp" class="no-js">
   <head>
     <meta charset="utf-8">
-    <title>Glance - Rahul Verma</title>
+    <title>Glance</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
@@ -43,16 +43,17 @@
     <!-- bower:js -->
     <script src="bower_components/jquery/dist/jquery.js"></script>
     <script src="bower_components/angular/angular.js"></script>
-    <script src="bower_components/firebase/firebase.js"></script>
-    <script src="bower_components/angularfire/dist/angularfire.js"></script>
-    <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
     <script src="bower_components/angular-animate/angular-animate.js"></script>
     <script src="bower_components/angular-cookies/angular-cookies.js"></script>
+    <script src="bower_components/angular-aria/angular-aria.js"></script>
+    <script src="bower_components/angular-material/angular-material.js"></script>
     <script src="bower_components/angular-resource/angular-resource.js"></script>
     <script src="bower_components/angular-route/angular-route.js"></script>
     <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
-    <script src="bower_components/angular-aria/angular-aria.js"></script>
-    <script src="bower_components/angular-material/angular-material.js"></script>
+    <script src="bower_components/firebase/firebase.js"></script>
+    <script src="bower_components/angularfire/dist/angularfire.js"></script>
+    <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="bower_components/moment/moment.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
@@ -62,6 +63,8 @@
 
         <script src="scripts/directives/statetitle.js"></script>
 
+        <script src="scripts/filters/capitalize.js"></script>
+
         <script src="scripts/controllers/nav.js"></script>
         <script src="scripts/controllers/auth.js"></script>
         <script src="scripts/controllers/glanceboard.js"></script>
@@ -69,12 +72,17 @@
         <script src="scripts/controllers/milestones.js"></script>
         <script src="scripts/controllers/tasks.js"></script>
         <script src="scripts/controllers/talk.js"></script>
+        <script src="scripts/controllers/contacts.js"></script>
+        <script src="scripts/controllers/settings.js"></script>        
 
         <script src="scripts/services/auth.js"></script>
+        <script src="scripts/services/glanceboard.js"></script>
         <script src="scripts/services/projects.js"></script>
         <script src="scripts/services/milestones.js"></script>
         <script src="scripts/services/tasks.js"></script>
         <script src="scripts/services/userref.js"></script>
+        <script src="scripts/services/talk.js"></script>
+        <script src="scripts/services/contacts.js"></script>
         <!-- endbuild -->
   </body>
 </html>

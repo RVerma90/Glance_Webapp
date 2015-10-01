@@ -14,7 +14,7 @@
           <img class="img-circle" ng-src="{{currentUser.password.profileImageURL}}">
         </div>
 
-        <h6 class="md-toolbar-tools">{{currentUser.password.email}}</h6>
+        <h6 class="md-toolbar-tools">{{currentUser.userData.firstName | capitalize}} {{currentUser.userData.lastName | capitalize}} {{currentUser.userData.displayName}}</h6>
       </md-toolbar>
 
       <md-content flex>
@@ -29,6 +29,9 @@
             Talk
           </md-list-item>
           <md-divider></md-divider>
+          <md-list-item ng-click="goProfile()">
+            Contacts
+          </md-list-item>
           <md-list-item ng-click="goSettings()">
             Settings
           </md-list-item>

@@ -1,15 +1,11 @@
 'use strict';
 
-glance.controller('GlanceCtrl', function($scope) {
+glance.controller('GlanceCtrl', function($scope, Auth, Glance, Projects, Milestones, Tasks) {
 
-	$scope.things = [
-		{text: "Item content in list"},
-		{text: "Item content in list"},
-		{text: "Item content in list"},
-		{text: "Item content in list"},
-		{text: "Item content in list"},
-		{text: "Item content in list"}
-	];
+	$scope.milestones = Glance.milestones();
+
+	$scope.tasks = Glance.tasks();
 
 
 });
+

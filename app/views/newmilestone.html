@@ -11,6 +11,10 @@
 					<label>Description</label>
 					<input ng-model="MAmodal.milestone.description">
 				</md-input-container>
+				<md-input-container>
+			      <md-slider flex ng-model="MAmodal.milestone.priority" min="0" max="5" aria-label="slider" class="md-accent"></md-slider>
+				</md-input-container>			
+
 				<md-button ng-click="MAmodal.add(MAmodal.milestone)" type="submit" value="Post" class="md-accent">
        	      		Add
        	 		</md-button>

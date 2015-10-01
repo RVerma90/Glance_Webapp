@@ -22,11 +22,14 @@ body {
     height: 100vh;
 }
 
-
 .img-circle {
   border-radius: 50%;
 }
 
 .sidenav-bg {
   background-image: url("/sidenavbg.png");
+}
+
+.bgblack {
+  height: 100vh;
 }
