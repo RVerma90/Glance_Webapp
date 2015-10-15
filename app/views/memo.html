@@ -1,0 +1,22 @@
+<div>
+    <md-content class="md-padding">
+
+      <md-subheader class="md-primary">Memos</md-subheader>
+      <md-list>
+        <md-list-item class="md-2-line contact-item slide" ng-repeat="memo in memos" ng-click="">
+          
+          <div class="md-list-item-text compact">
+            <h3>{{memo.name | capitalize}}</h3>
+            <p>{{memo.text | capitalize}}</p>
+            <i md-no-ink ng-click="remove(project)" class="icon ion-cancel md-icon-button md-secondary" aria-label="Update Milestone">
+            </i>             
+          </div>            
+          <md-divider ng-if="!$last"></md-divider>
+        </md-list-item>
+      <md-list>
+
+    </md-content>
+</div>
+
+
+

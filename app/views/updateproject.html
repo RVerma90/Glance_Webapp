@@ -1,9 +1,9 @@
-<md-dialog aria-label="Edit Project Dialog" flex="0.318">
+<md-dialog aria-label="Edit Project Dialog" flex="0.618">
 
 	<md-dialog-content>
 		<form name="updateprojectform" ng-submit="updateP(PEmodal)">
 			<div>
-				<md-datepicker ng-model="PEmodal.project.deadline" md-placeholder="Deadline" disabled></md-datepicker>
+				<md-datepicker ng-model="PEmodal.project.deadline" md-placeholder="Deadline"></md-datepicker>
 
 				<md-input-container>
 					<label>Project Title</label>
@@ -17,12 +17,15 @@
 			      <md-slider flex ng-model="PEmodal.project.priority" min="0" max="5" aria-label="slider" class="md-primary"></md-slider>
 				</md-input-container>
 
-
-
-				<md-button ng-click="PEmodal.update()" type="submit" value="Post" class="md-accent">
-       	      		Done
+				<md-button ng-click="PEmodal.update()" type="submit" value="Post" class="md-primary">
+       	      		Update
        	 		</md-button>
-
+      	 		<md-button ng-click="PEmodal.complete()" class="md-primary">
+            		Done
+        		</md-button>       	 		
+      	 		<md-button ng-click="PEmodal.remove()" class="md-warn">
+            		Remove
+        		</md-button>        		
 			</div>
 		</form>
   	</md-dialog-content>

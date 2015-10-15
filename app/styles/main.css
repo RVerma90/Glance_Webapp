@@ -30,6 +30,23 @@ body {
   background-image: url("/sidenavbg.png");
 }
 
-.bgblack {
+.tabs {
   height: 100vh;
+}
+
+.glanceplateheight {
+  height: 80px;
+}
+
+.glanceplate {
+  border-radius: 0 40px 0 40px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 75%;
+}
+
+.profileImage {
+    display: block;
+    width: 80px;
+    height: 80px;
 }

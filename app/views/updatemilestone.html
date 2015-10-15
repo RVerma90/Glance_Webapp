@@ -1,8 +1,10 @@
-<md-dialog aria-label="Edit Milestone Dialog" flex="0.318">
+<md-dialog aria-label="Edit Milestone Dialog" flex="0.618">
 
 	<md-dialog-content>
 		<form name="updatemilestoneform" ng-submit="updateM(MEmodal)">
 			<div>
+				<md-datepicker ng-model="MEmodal.milestone.deadline" md-placeholder="Deadline"></md-datepicker>
+
 				<md-input-container>
 					<label>Milestone Title</label>
 					<input ng-model="MEmodal.milestone.title">
@@ -12,17 +14,18 @@
 					<input ng-model="MEmodal.milestone.description">
 				</md-input-container>
 				<md-input-container>
-			      <md-slider flex ng-model="MEmodal.milestone.priority" min="0" max="5" aria-label="slider" class="md-accent"></md-slider>
+			      <md-slider flex ng-model="MEmodal.milestone.priority" min="0" max="5" aria-label="slider" class="md-primary"></md-slider>
 				</md-input-container>
 
-				<!--<md-datepicker ng-model="PEmodal.project.deadline" md-placeholder="Deadline"></md-datepicker> -->
-
-				<md-button ng-click="MEmodal.update()" type="submit" value="Post" class="md-accent">
-       	      		Done
+				<md-button ng-click="MEmodal.update()" type="submit" value="Post" class="md-primary">
+       	      		Update
        	 		</md-button>
-      	 		<md-button ng-click="MEmodal.closeDialog()" class="md-warn">
+				<md-button ng-click="MEmodal.complete()" class="md-primary">
+       	      		Done
+       	 		</md-button>    
+      	 		<md-button ng-click="MEmodal.remove()" class="md-warn">
             		Remove
-        		</md-button>
+        		</md-button>       	 		    		
 			</div>
 		</form>
   	</md-dialog-content>

@@ -1,0 +1,16 @@
+<div> <md-content class="md-padding"> <!-- <md-subheader class="md-no-sticky">Milestones</md-subheader> --> <!-- 
+      <md-card ng-model="currentProject">
+        <md-card-content>
+        <img ng-src="{{currentProject.image}}" class="md-card-image" alt="Washed Out">
+          <h2 class="md-title">{{currentProject.title | capitalize}}</h2>
+          <p>
+            {{currentProject.description | capitalize}}
+          </p>
+        </md-card-content>
+        <div class="md-actions" layout="row" layout-align="end center">
+          <md-button>Action 1</md-button>
+          <md-button>Action 2</md-button>
+        </div>
+      </md-card>
+      --> <md-list> <md-list-item class="md-2-line contact-item slide" ng-model="currentProject" ng-click="updateProject($event, currentProject)" aria-label="Update Project"> <img ng-src="{{currentProject.image}}" class="md-avatar"> <div class="md-list-item-text compact"> <h3>{{currentProject.title | capitalize}}</h3> <p>{{currentProject.description | capitalize}}</p> <i md-no-ink ng-click="projectUsers(currentProject)" class="icon ion-person-stalker md-icon-button md-secondary" aria-label="Update Milestone"> </i> </div> </md-list-item> <md-list> <md-divider ng-if="!$last"></md-divider> <md-list> <md-list-item class="md-2-line contact-item slide" ng-repeat="milestone in milestones" ng-click="selectMilestone(milestone)"> <img ng-src="{{milestone.image}}" class="md-avatar"> <div class="md-list-item-text compact"> <h3>{{milestone.title}}</h3> <p class="md-primary">{{milestone.description}}</p> <md-checkbox class="md-secondary" ng-model="milestone.complete"></md-checkbox> <!--            <i md-no-ink ng-click="updateMilestone($event, milestone)" class="icon ion-edit md-icon-button md-secondary" aria-label="Update Milestone">
+            </i> --> </div> <md-divider ng-if="!$last"></md-divider> </md-list-item> <md-list> </md-list></md-list></md-list></md-list></md-content> </div> <md-button class="md-fab static" ng-click="addMilestone($event)" aria-label="Add Milestone"> <md-tooltip>Add milestone</md-tooltip> <i class="icon ion-plus-round"></i> </md-button>

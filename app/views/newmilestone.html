@@ -3,6 +3,7 @@
 	<md-dialog-content>
 		<form name="newmilestoneform" ng-submit="addM(MAmodal)">
 			<div>
+				<md-datepicker ng-model="MAmodal.milestone.deadline" md-placeholder="Deadline"></md-datepicker>
 				<md-input-container>
 					<label>Milestone Title</label>
 					<input ng-model="MAmodal.milestone.title">

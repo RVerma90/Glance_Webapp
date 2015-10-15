@@ -5,13 +5,17 @@ glance.controller('MilestonesCtrl',
 			 $state, 
 			 FURL, 
 			 Milestones,
-			 $stateParams) {
+			 $stateParams,
+			 Contacts) {
 
 	var project = $stateParams.pid;
+	var p = Milestones.project(project);
 
+	$scope.currentProject = p;
+	//$scope.admins = Milestones.admins();
+	$scope.contacts = Contacts.show();
+	$scope.members = Milestones.members(project);
 	$scope.milestones = Milestones.show(project);
-
-	$scope.currentProject = Milestones.project(project);
 
 	$scope.selectMilestone = function(milestone) {
 		$state.transitionTo("tasks", {mid: milestone.milestoneID});
@@ -26,8 +30,16 @@ glance.controller('MilestonesCtrl',
 		Milestones.updateProject(e, cp);
 	};
 
+	$scope.projectUsers = function() {
+		$state.transitionTo("projectusers", {pid: project});
+	};
+
+	$scope.addMember = function(member) {
+		Milestones.inviteMember(p, member);
+	};
+
 	$scope.updateMilestone = function(e, milestone) {
 		Milestones.update(e, milestone);
-	};	
+	};
 
 });

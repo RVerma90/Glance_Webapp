@@ -3,7 +3,7 @@
 	<md-dialog-content>
 		<form name="newprojectform" ng-submit="addP(PAmodal)">
 			<div>
-<!--				<md-datepicker ng-model="PAmodal.project.deadline" md-placeholder="Deadline"></md-datepicker> -->
+				<md-datepicker ng-model="PAmodal.project.deadline" md-placeholder="Deadline"></md-datepicker>
 				<md-input-container>
 					<label>Project Title</label>
 					<input ng-model="PAmodal.project.title">
@@ -11,6 +11,7 @@
 				<md-input-container>
 					<label>Description</label>
 					<input ng-model="PAmodal.project.description">
+
 				</md-input-container>
 				<md-input-container>
 			      <md-slider flex ng-model="PAmodal.project.priority" min="0" max="5" aria-label="slider" class="md-primary"></md-slider>

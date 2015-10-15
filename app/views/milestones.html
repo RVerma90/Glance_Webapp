@@ -2,26 +2,32 @@
     <md-content class="md-padding">
       <!-- <md-subheader class="md-no-sticky">Milestones</md-subheader> -->
 
+      <md-subheader class="md-primary">Current Project</md-subheader>
       <md-list>
         <md-list-item  class="md-2-line contact-item slide" ng-model="currentProject" ng-click="updateProject($event, currentProject)" aria-label="Update Project">
-          <img ng-src="{{contact.image}}" class="md-avatar" alt="{{contact.name}}" />
+          <img ng-src="{{currentProject.image}}" class="md-avatar"/>
           <div class="md-list-item-text compact">
             <h3>{{currentProject.title | capitalize}}</h3>
             <p>{{currentProject.description | capitalize}}</p>
+            <i md-no-ink ng-click="projectUsers(currentProject)" class="icon ion-person-stalker md-icon-button md-secondary" aria-label="Update Milestone">
+            </i>             
           </div>          
         </md-list-item>
       <md-list>
 
+
       <md-divider ng-if="!$last"></md-divider>
 
+      <md-subheader class="md-primary">Milestones</md-subheader>
       <md-list>
-        <md-list-item class="slide" ng-repeat="milestone in milestones" ng-click="selectMilestone(milestone)">
-          <p class="md-primary">{{milestone.title}} - {{milestone.description}}</p>
-          
-          <div>
-            <i md-no-ink ng-click="updateMilestone($event, milestone)" class="icon ion-edit md-icon-button md-secondary" aria-label="Update Milestone">
-            </i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    
+        <md-list-item class="md-2-line contact-item slide" ng-repeat="milestone in milestones" ng-click="selectMilestone(milestone)">
+          <img ng-src="{{milestone.image}}" class="md-avatar"/>
+          <div class="md-list-item-text compact">
+            <h3>{{milestone.title}}</h3>
+            <p class="md-primary">{{milestone.description}}</p>     
+            <md-checkbox class="md-secondary" ng-model="milestone.completed"></md-checkbox>       
+<!--            <i md-no-ink ng-click="updateMilestone($event, milestone)" class="icon ion-edit md-icon-button md-secondary" aria-label="Update Milestone">
+            </i> -->
           </div>
           <md-divider ng-if="!$last"></md-divider>
         </md-list-item>

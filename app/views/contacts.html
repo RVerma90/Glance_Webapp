@@ -1,12 +1,12 @@
 <div>
     <md-content class="md-padding">
 
-    	<md-tabs md-dynamic-height>
+    	<md-tabs md-dynamic-height class="tabs">
     		<md-tab label="Contacts">
 
 				<md-list>
 		    		<md-list-item class="md-2-line contact-item slide" ng-repeat="contact in contacts" ng-click="selectProject(project)">
-		           		<img ng-src="{{contact.image}}" class="md-avatar" alt="{{contact.name}}" />
+		           		<img ng-src="{{contact.profileImage}}" class="md-avatar" alt="{{contact.name}}" />
 		    			<div class="md-list-item-text compact">
 		    				<h3>{{contact.firstName | capitalize}} {{contact.lastName | capitalize}}</h3>
 		    				<p>{{contact.email}}</p>
@@ -31,11 +31,12 @@
 						<label>Add new contact</label>
 						<input ng-model="email">
 					</md-input-container>
-					<md-button ng-click="search()" type="submit" value="Post" class="md-accent">
+					<md-button ng-click="search()" type="submit" value="Post" class="md-primary">
 		       	  		Request
 		       		</md-button>
 				</form>
 
+        		<md-subheader ng-hide="loading" class="md-primary">Pending</md-subheader>
 				<md-list>
 		    		<md-list-item class="md-2-line contact-item slide" ng-repeat="request in requests" ng-click="acceptRequest(request)">		          
 		    			<div class="md-list-item-text compact">

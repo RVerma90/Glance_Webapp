@@ -1,6 +1,6 @@
 'use strict';
 
-glance.factory('Projects', function(FURL, Auth, $mdDialog, $firebaseAuth, $firebaseObject, $firebaseArray, $filter) {
+glance.factory('Projects', function(FURL, Auth, User, $mdDialog, $firebaseAuth, $firebaseObject, $firebaseArray, $filter, $timeout) {
 
 	var ref = new Firebase(FURL);
 	var FBprojects = $firebaseArray(ref.child('projects'));
@@ -15,6 +15,46 @@ glance.factory('Projects', function(FURL, Auth, $mdDialog, $firebaseAuth, $fireb
 		show: function() {
 
 			return $firebaseObject(usersRef.child(user).child('projects'));
+
+/*
+			var project = [];
+			//instead of timeout, change to promise resolve
+			$timeout(function() {
+
+					var projects = $firebaseArray(usersRef.child(user).child('projects'));
+
+					projects.$loaded(function(data) {
+						data.forEach(function(entry) {
+				//			var now = (new Date).getTime();
+				//			var daysToDeadline = (entry.deadline - now)/86400000; //day in milliseconds
+				//			var order = entry.priority/daysToDeadline;
+
+				//			entry.order = order;
+
+							project.push(entry);
+						});
+
+						return project;
+				//	}).then(function(data) {
+				//		project = data;
+
+				//		project.sort(function(a, b) {
+				//			return parseFloat(b.order) - parseFloat(a.order);
+
+
+				//		});
+
+				//		console.log(project);
+
+					});
+			},800);
+
+
+			return project;
+
+*/
+
+
 			
 		},
 
@@ -29,18 +69,15 @@ glance.factory('Projects', function(FURL, Auth, $mdDialog, $firebaseAuth, $fireb
 
 					vm.add = function(project) {
 						project.creator = Auth.user.uid;
-						project.admin = Auth.user.uid;
-						//project.users = [];
+
 						project.startDate = Firebase.ServerValue.TIMESTAMP;
 						project.completed = false;
 
-						//project.contacts = Contacts.show();
+    					var x = Math.floor((Math.random() * 100) + 200);
+    					project.image = "https://unsplash.it/"+x;
 
 						var date = new Date();
-
-						project.deadline = date.getTime() + 604800000;
-
-						console.log(project.deadline);
+						project.deadline = date.getTime() + 2419200000;
 
 						if(project.description == null) {
 							project.description = '';
@@ -54,19 +91,33 @@ glance.factory('Projects', function(FURL, Auth, $mdDialog, $firebaseAuth, $fireb
 							project.deadline = null;
 						};
 
-
-//						var order = priority/5 + (deadline - startDate)
-
 						FBprojects.$add(project)
 						.then(function(newProject) {
 
-							var obj = {
+							var p = {
 								projectID: newProject.key(),
 								title: project.title,
-								completed: false
+								description: project.description,
+								image: project.image,
+								completed: false,
+								priority: project.priority,
+								deadline: project.deadline
 							};
 
-							usersRef.child(Auth.user.uid).child('projects').child(obj.projectID).set(obj);
+							var obj = {
+								uid: Auth.user.userData.uid,
+								email: Auth.user.userData.email,
+								firstName: Auth.user.userData.firstName,
+								lastName: Auth.user.userData.lastName,
+								profileImage: Auth.user.userData.profileImage
+							};
+
+							usersRef.child(Auth.user.uid).child('projects').child(p.projectID).set(p);
+
+							ref.child("projects").child(p.projectID).child("members").child(Auth.user.uid).set(obj);
+							ref.child("projects").child(p.projectID).child("usersDone").child(user).set(false);
+
+							ref.child("projects").child(p.projectID).child("admins").child(Auth.user.uid).set(true);
 
 							return newProject;
 

@@ -81,7 +81,11 @@ glance.factory('Auth', function(FURL, $firebaseAuth, $firebaseObject, $firebaseA
 					user.uid = authData.uid;
 					return Auth.login(user);
 				})
-				.then(function() {
+				.then(function(test) {
+
+    				var x = Math.floor((Math.random() * 100) + 100);
+
+    				user.profileImage = "https://unsplash.it/"+x;
 					var uid = user.uid;
 					delete user.password;
 					user.dateReg = Firebase.ServerValue.TIMESTAMP;

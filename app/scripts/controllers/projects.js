@@ -11,13 +11,16 @@ glance.controller('ProjectsCtrl',
 
 	//no need for auth.uid
 
+	$scope.myClass = "ion-social-instagram-outline";
+
 	$scope.selectProject = function(project) {
 		$state.transitionTo("milestones", {pid: project.projectID});
-		console.log(project.projectID);
+		//console.log(project.projectID);
 	};
 
 	$scope.addProject = function(e) {
 		Projects.add(e);
+		$scope.projects = Projects.show();		
 	};
 
 	$scope.updateProject = function(e, project) {

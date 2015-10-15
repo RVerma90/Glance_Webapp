@@ -11,7 +11,7 @@
 
         <br>
         <div class="md-toolbar-tools">
-          <img class="img-circle" ng-src="{{currentUser.password.profileImageURL}}">
+          <img class="img-circle profileImage" ng-src="{{currentUser.userData.profileImage}}"/>
         </div>
 
         <h6 class="md-toolbar-tools">{{currentUser.userData.firstName | capitalize}} {{currentUser.userData.lastName | capitalize}} {{currentUser.userData.displayName}}</h6>
@@ -25,8 +25,8 @@
           <md-list-item ng-click="goProjects()">
             Projects
           </md-list-item>
-          <md-list-item ng-click="goTalk()">
-            Talk
+          <md-list-item ng-click="goMemo()">
+            Memo
           </md-list-item>
           <md-divider></md-divider>
           <md-list-item ng-click="goProfile()">

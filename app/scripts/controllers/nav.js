@@ -23,8 +23,8 @@ glance.controller("NavCtrl", function($scope, $state, $stateParams, $mdSidenav, 
     $mdSidenav('left').close();
   };
 
-  $scope.goTalk = function() {
-    $state.go("talk");
+  $scope.goMemo = function() {
+    $state.go("memo");
     $mdSidenav('left').close();
   };    
 
@@ -40,7 +40,7 @@ glance.controller("NavCtrl", function($scope, $state, $stateParams, $mdSidenav, 
 
   $scope.logout = function() {
     Auth.logout();
-    $state.go('signin');
+    $state.go('auth');
   };
 
 

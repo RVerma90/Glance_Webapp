@@ -18,12 +18,15 @@ var glance = angular.module('GlanceApp', [
     'firebase',
     'ngMaterial'
   ])
-	.constant('FURL', 'https://fiery-inferno-5671.firebaseio.com/')
+	//.constant('FURL', 'https://fiery-inferno-5671.firebaseio.com/')
+  //.constant('FURL', 'https://prototypeapp.firebaseio.com/')
+  .constant('FURL', 'https://webapptesting.firebaseio.com/')
   .config(function($stateProvider, $urlRouterProvider) {
 
     $urlRouterProvider.otherwise('/');
 
     $stateProvider
+/*    
       .state('signin', {
         url: '/signin',
         templateUrl: 'views/signin.html',
@@ -34,6 +37,7 @@ var glance = angular.module('GlanceApp', [
         templateUrl: 'views/signup.html',
         controller: 'AuthCtrl'        
       })
+*/
       .state('auth', {
         url: '/',
         templateUrl: 'views/auth.html',
@@ -65,6 +69,19 @@ var glance = angular.module('GlanceApp', [
           }]
         }       
       })
+      .state('projectusers', {
+        url: '/projectusers/:pid',
+        templateUrl: 'views/projectusers.html',
+        controller: 'MilestonesCtrl',
+        data: {
+          stateName: 'Project Members'
+        },
+        resolve: {
+          currentAuth: ['Auth', function(Auth) {
+            return Auth.requireAuth();
+          }]
+        }
+      })      
       .state('milestones', {
         url: '/milestones/:pid',
         templateUrl: 'views/milestones.html',
@@ -78,6 +95,19 @@ var glance = angular.module('GlanceApp', [
           }]
         }               
       })
+      .state('milestoneusers', {
+        url: '/milestoneusers/:mid',
+        templateUrl: 'views/milestoneusers.html',
+        controller: 'TasksCtrl',
+        data: {
+          stateName: 'Milestone Members'
+        },
+        resolve: {
+          currentAuth: ['Auth', function(Auth) {
+            return Auth.requireAuth();
+          }]
+        }
+      })        
       .state('tasks', {
         url: '/tasks/:mid',
         templateUrl: 'views/tasks.html',
@@ -91,12 +121,25 @@ var glance = angular.module('GlanceApp', [
           }]
         }               
       })
-      .state('talk', {
-        url: '/talk',
-        templateUrl: "views/talk.html",
-        controller: "TalkCtrl",
+      .state('task', {
+        url: '/task/:tid',
+        templateUrl: 'views/taskdetail.html',
+        controller: 'TaskDetailCtrl',
         data: {
-          stateName: 'Talk'
+          stateName: 'Task Members'
+        },
+        resolve: {
+          currentAuth: ['Auth', function(Auth) {
+            return Auth.requireAuth();
+          }]
+        }
+      })      
+      .state('memo', {
+        url: '/memo',
+        templateUrl: "views/memo.html",
+        controller: "MemoCtrl",
+        data: {
+          stateName: 'Memo'
         },        
         resolve: {
           currentAuth: ['Auth', function(Auth) {

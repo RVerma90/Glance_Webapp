@@ -1,6 +1,6 @@
 'use strict';
 
-glance.controller('ContactsCtrl', function($scope, FURL, Contacts, Auth) {
+glance.controller('ContactsCtrl', function($scope, FURL, Contacts, Auth, $mdToast) {
 
 	$scope.contacts = Contacts.show();
 
@@ -20,6 +20,10 @@ glance.controller('ContactsCtrl', function($scope, FURL, Contacts, Auth) {
 		Contacts.searchEmail($scope.email);
 
 		$scope.email = '';
+
+
+		$mdToast.show($mdToast.simple().content('Request Sent'));
+
 	};
 
 });

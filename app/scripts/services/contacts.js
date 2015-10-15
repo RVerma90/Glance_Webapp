@@ -16,6 +16,14 @@ glance.factory('Contacts', function(FURL, Auth, $firebaseObject, $firebaseArray)
 
 		},
 
+//check if i can delete showa
+
+		showa: function() {
+
+			return $firebaseArray(ref.child('users').child(user).child('contacts'));
+
+		},
+
 		reqShow: function() {
 
 			return $firebaseObject(ref.child('users').child(user).child('requests'));
@@ -36,12 +44,15 @@ glance.factory('Contacts', function(FURL, Auth, $firebaseObject, $firebaseArray)
 			newContact.uid = currentUser.uid;
 			newContact.firstName = currentUser.firstName;
 			newContact.lastName = currentUser.lastName;
+			newContact.profileImage = currentUser.profileImage;
 
 				console.log(newContact);
 
 			ref.child('users').child(user).child('contacts').child(contact.uid).set(contact);
 
-			ref.child('users').child(contact.uid).child('contacts').child(contact.uid).set(newContact);
+			ref.child('users').child(contact.uid).child('contacts').child(newContact.uid).set(newContact);
+
+			console.log("checking",contact);
 
 			ref.child('users').child(user).child('requests').child(contact.uid).remove();
 				//ref.child('users').
@@ -71,6 +82,7 @@ glance.factory('Contacts', function(FURL, Auth, $firebaseObject, $firebaseArray)
 			requestBy.email = currentUser.email;
 			requestBy.firstName = currentUser.firstName;
 			requestBy.lastName = currentUser.lastName;
+			requestBy.profileImage = currentUser.profileImage;
 
 			console.log(requestBy);
 

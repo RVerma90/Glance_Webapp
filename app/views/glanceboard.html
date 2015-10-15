@@ -1,24 +1,72 @@
 <div>
     <md-content class="md-padding">
 
-      <md-tabs md-dynamic-height class="bgblack" >
-        	<md-tab label="Tasks">
-	        	<md-list class="slide" ng-repeat="task in tasks">
-	            	<md-list-item class="md-2-line contact-item slide">
-	            		<p>{{task.title}}</p>
-	            </md-list-item>
-	        <md-list>
-      </md-tab>
+        <md-subheader ng-hide="loading" class="md-primary">Tasks and Milestones</md-subheader>
 
-        <md-tab label="Milestones">
-	        <md-list class="slide" ng-repeat="milestone in milestones">
-	            <md-list-item class="md-2-line contact-item slide">
-	            	<p>{{milestone.title}}</p>
-	            </md-list-item>
-	          <md-list>
-        </md-tab>
+         <md-card ng-repeat="task in tasks | filter:{completed:false}" class="glanceplate slide">
+            <md-card-content class="glanceplateheight">
+              <p class="md-title">{{task.title | capitalize}}</p>
+              <p>{{task.description | capitalize}}</p>
+            </md-card-content>
+            <div class="md-actions" layout="row" layout-align="end center">
+              <md-button ng-click="taskSkip(task)" class="md-accent">Skip</md-button>
+              <md-button ng-click="taskComplete(task)" class="md-primary">Complete</md-button>
+            </div>
+          </md-card>
 
-      </md-tabs md-dynamic-height>
+         <md-card ng-repeat="milestone in milestones | filter:{completed:false}" class="glanceplate slide">
+            <md-card-content class="glanceplateheight">
+              <p class="md-title">{{milestone.title | capitalize}}</p>
+              <p>{{milestone.description | capitalize}}</p>
+            </md-card-content>
+            <div class="md-actions" layout="row" layout-align="end center">
+              <md-button ng-click="milestoneSkip(milestone)" class="md-accent">Skip</md-button>
+              <md-button ng-click="milestoneComplete(milestone)" class="md-primary">Complete</md-button>
+            </div>
+          </md-card>
+
+         <md-card ng-repeat="project in projects | filter:{completed:false}" class="glanceplate slide">
+            <md-card-content class="glanceplateheight">
+              <p class="md-title">{{project.title | capitalize}}</p>
+              <p>{{project.description | capitalize}}</p>
+            </md-card-content>
+            <div class="md-actions" layout="row" layout-align="end center">
+              <md-button ng-click="projectSkip(project)" class="md-accent">Skip</md-button>
+              <md-button ng-click="projectComplete(project)" class="md-primary">Complete</md-button>
+            </div>
+          </md-card>          
+
+        <md-subheader ng-hide="loading" class="md-primary">Completed</md-subheader>      
+         <md-card ng-repeat="task in tasks | filter:{completed:true}" class="glanceplate slide">
+            <md-card-content class="glanceplateheight">
+              <p class="md-title">{{task.title | capitalize}}</p>
+              <p>{{task.description | capitalize}}</p>
+            </md-card-content>
+            <div class="md-actions" layout="row" layout-align="end center">
+              <md-button ng-click="taskUndo(task)" class="md-primary">Undo</md-button>
+            </div>
+          </md-card>
+
+         <md-card ng-repeat="milestone in milestones | filter:{completed:true}" class="glanceplate slide">
+            <md-card-content class="glanceplateheight">
+              <p class="md-title">{{milestone.title | capitalize}}</p>
+              <p>{{milestone.description | capitalize}}</p>
+            </md-card-content>
+            <div class="md-actions" layout="row" layout-align="end center">
+              <md-button ng-click="milestoneUndo(milestone)" class="md-primary">Undo</md-button>
+            </div>
+          </md-card>
+
+         <md-card ng-repeat="project in projects | filter:{completed:true}" class="glanceplate slide">
+            <md-card-content class="glanceplateheight">
+              <p class="md-title">{{project.title | capitalize}}</p>
+              <p>{{project.description | capitalize}}</p>
+            </md-card-content>
+            <div class="md-actions" layout="row" layout-align="end center">
+              <md-button ng-click="projectUndo(project)" class="md-primary">Undo</md-button>
+            </div>
+          </md-card>          
+
     </md-content>
 </div>
 
