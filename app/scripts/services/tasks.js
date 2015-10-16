@@ -28,6 +28,8 @@ glance.factory('Tasks', function(FURL, Auth, $mdDialog, $firebaseAuth, $firebase
 					vm.milestone = {};
 					vm.milestone = currentMilestone;
 
+					var pid = vm.milestone.projectID;
+
 					var mid = $stateParams.mid;
 
 //					var n = vm.project.deadline;
@@ -39,21 +41,7 @@ glance.factory('Tasks', function(FURL, Auth, $mdDialog, $firebaseAuth, $firebase
 					//console.log("toString:",d);
 
 					//calendar having problems  getting 
-					vm.remove = function() {
 
-						var project = $firebaseObject(milestonesRef.child(mid));
-
-						project.$loaded(function(data) {
-
-							projectsRef.child(data.projectID).child("milestones").child(mid).remove();
-
-							milestonesRef.child(mid).remove();
-						});
-
-						//go back to milestones
-
-						$mdDialog.hide();
-					};
 
 					vm.update = function() {
 						//Updates at FB locations with updated project
@@ -64,22 +52,13 @@ glance.factory('Tasks', function(FURL, Auth, $mdDialog, $firebaseAuth, $firebase
 							deadline: vm.milestone.deadline
 						});
 
-						var project = $firebaseObject(milestonesRef.child(mid).child("projectID"));
-
-						var pid = null;
-
-						project.$loaded(function(data) {
-
-							var pid = data.$value;
-
-							projectsRef.child(pid).child("milestones").child(mid).update({
-								title: vm.milestone.title,
-								description: vm.milestone.description,
-								priority: vm.milestone.priority,
-								deadline: vm.milestone.deadline
-							});
-
+						projectsRef.child(pid).child("milestones").child(mid).update({
+							title: vm.milestone.title,
+							description: vm.milestone.description,
+							priority: vm.milestone.priority,
+							deadline: vm.milestone.deadline
 						});
+
 
 						var users = Tasks.updateMilestoneUsers(vm.milestone, mid);
 						$mdDialog.hide();
@@ -93,24 +72,17 @@ glance.factory('Tasks', function(FURL, Auth, $mdDialog, $firebaseAuth, $firebase
 						ref.child("users").child(user).child("milestones").child(mid).child("completed").set(true);
 						milestonesRef.child(mid).child("usersDone").child(user).set(true);
 
-						//set true in project
-						var project = $firebaseObject(milestonesRef.child(mid).child("projectID"));
-						var pid = null;
-						project.$loaded(function(data) {
-							var pid = data.$value;	 
-//							projectsRef.child(pid).child("milestonesCompleted").child(mid).set(true);
-						});					
-
-
 						var usersDone = $firebaseArray(ref.child("milestones").child(mid).child("usersDone"));
 						console.log(usersDone);
 
 						usersDone.$loaded(function() {
-							ref.child("milestones").child(mid).child("completed").set(true);
+							projectsRef.child(pid).child("milestones").child(mid).child("completed").set(true);
+							milestonesRef.child(mid).child("completed").set(true);
 							angular.forEach(usersDone, function(value, key) {
 
 								if (value.$value == false) {
 									ref.child("milestones").child(mid).child("completed").set(false);
+									projectsRef.child(pid).child("milestones").child(mid).child("completed").set(false);
 								}
 							});
 
@@ -119,6 +91,37 @@ glance.factory('Tasks', function(FURL, Auth, $mdDialog, $firebaseAuth, $firebase
 
 						$mdDialog.hide();
 					};
+
+					vm.remove = function() {
+
+						milestonesRef.child(mid).child("usersDone").child(user).remove();
+						milestonesRef.child(mid).child("members").child(user).remove();
+						ref.child("users").child(user).child("milestones").child(mid).remove();
+
+						var checkUsers = $firebaseObject(ref.child("milestones").child(mid).child("members"));
+
+						checkUsers.$loaded(function() {
+							var users = [];
+							angular.forEach(checkUsers, function(value, key) {
+								console.log(value);
+								console.log(key);
+
+								users.push(value);
+							});
+
+							console.log(users);
+							console.log(users.length);
+
+							if(users.length == 0) {
+								projectsRef.child(pid).child('milestones').child(mid).remove();
+								milestonesRef.child(mid).remove();
+							} 
+						});
+
+						$mdDialog.hide();
+					};
+
+					
 
 				},
 				controllerAs: 'MEmodal',
@@ -140,6 +143,7 @@ glance.factory('Tasks', function(FURL, Auth, $mdDialog, $firebaseAuth, $firebase
 				milestoneID: m.$id,
 				title: m.title,
 				description: m.description,
+				projectID: m.projectID,
 				image: m.image,
 				completed: m.completed,
 				priority: m.priority,
@@ -193,6 +197,7 @@ glance.factory('Tasks', function(FURL, Auth, $mdDialog, $firebaseAuth, $firebase
 			milestone.milestoneID = m.$id;
 			milestone.title = m.title;
 			milestone.description = m.description;
+			milestone.projectID = m.projectID,
 			milestone.image = m.image;
 			milestone.completed = m.completed;
 			milestone.priority = m.priority;
@@ -230,7 +235,6 @@ glance.factory('Tasks', function(FURL, Auth, $mdDialog, $firebaseAuth, $firebase
 
 						task.creator = Auth.user.uid;
 						task.admin = Auth.user.uid;
-						//milestone.users = [1,2,3];
 						task.startDate = Firebase.ServerValue.TIMESTAMP;
 						task.completed = false;
 						task.milestoneID = mid;
@@ -257,6 +261,7 @@ glance.factory('Tasks', function(FURL, Auth, $mdDialog, $firebaseAuth, $firebase
 								taskID: newTask.key(),
 								title: task.title,
 								description: task.description,
+								milestoneID: task.milestoneID,
 								image: task.image,
 								completed: false,
 								priority: task.priority,

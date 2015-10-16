@@ -152,8 +152,6 @@ glance.factory('Projects', function(FURL, Auth, User, $mdDialog, $firebaseAuth, 
 						
 					vm.update = function() {
 
-
-
 						//Updates at FB locations with updated project
 						ref.child('projects').child(project.$id).update({
 							title: project.title,
@@ -167,7 +165,36 @@ glance.factory('Projects', function(FURL, Auth, User, $mdDialog, $firebaseAuth, 
 						$mdDialog.hide();
 					};
 
-					vm.closeDialog = function() {
+
+
+					vm.complete = function() {
+						//complete at user ref and task in milestone
+
+						ref.child("users").child(user).child("tasks").child(tid).child("completed").set(true);
+						tasksRef.child(tid).child("usersDone").child(user).set(true);
+
+						var usersDone = $firebaseArray(ref.child("tasks").child(tid).child("usersDone"));
+						console.log(usersDone);
+
+						usersDone.$loaded(function() {
+							ref.child("tasks").child(tid).child("completed").set(true);
+							ref.child("milestones").child(mid).child("tasks").child(tid).child("completed").set(true);
+							//milestonesRef.child(mid).child('tasksDone').child(tid).set(true);
+							angular.forEach(usersDone, function(value, key) {
+								
+								if (value.$value == false) {
+									ref.child("tasks").child(tid).child("completed").set(false);
+									ref.child("milestones").child(mid).child("tasks").child(tid).child("completed").set(false);
+									//milestonesRef.child(mid).child('tasksDone').child(tid).set(false);
+								}
+							});
+						});
+
+						$mdDialog.hide();
+					};		
+
+
+					vm.remove = function() {
 						console.log('delete');
 					//	ref.child('projects').child(project.$id).remove();
 
@@ -186,7 +213,7 @@ glance.factory('Projects', function(FURL, Auth, User, $mdDialog, $firebaseAuth, 
 				parent: angular.element(document.body),
 				targetEvent: e
 			});
-		},
+		}
 
 
 	};

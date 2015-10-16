@@ -1,6 +1,6 @@
 'user strict';
 
-glance.factory('Glance', function(FURL, Auth, $firebaseObject, $firebaseArray, $timeout) {
+glance.factory('Glance', function(FURL, Auth, $firebaseObject, $firebaseArray, $timeout, Projects, Milestones, Task) {
 
 	var ref = new Firebase(FURL);
 
@@ -160,6 +160,7 @@ glance.factory('Glance', function(FURL, Auth, $firebaseObject, $firebaseArray, $
 			console.log(milestone);
 
 			var mid = milestone.milestoneID;
+			var pid = milestone.projectID;
 
 			ref.child("users").child(user).child("milestones").child(mid).child("completed").set(true);
 			milestonesRef.child(mid).child("usersDone").child(user).set(true);
@@ -168,11 +169,13 @@ glance.factory('Glance', function(FURL, Auth, $firebaseObject, $firebaseArray, $
 			console.log(usersDone);
 
 			usersDone.$loaded(function() {
-				ref.child("milestones").child(mid).child("completed").set(true);
+				milestonesRef.child(mid).child("completed").set(true);
+				projectsRef.child(pid).child("milestones").child(mid).child("completed").set(true);
 				angular.forEach(usersDone, function(value, key) {
 					
 					if (value.$value == false) {
-						ref.child("milestones").child(mid).child("completed").set(false);
+						milestonesRef.child(mid).child("completed").set(false);
+						projectsRef.child(pid).child("milestones").child(mid).child("completed").set(false);
 					}
 				});
 			});
@@ -201,11 +204,13 @@ glance.factory('Glance', function(FURL, Auth, $firebaseObject, $firebaseArray, $
 
 			console.log(milestone);
 			var mid = milestone.milestoneID;
+			var pid = milestone.projectID;
 			console.log(mid);
 
 			ref.child("users").child(user).child("milestones").child(mid).child("completed").set(false);
 			milestonesRef.child(mid).child("usersDone").child(user).set(false);
 			milestonesRef.child(mid).child("completed").set(false);
+			projectsRef.child(pid).child("milestones").child(mid).child("completed").set(false);
 		},
 
 		tasks: function() {
@@ -244,9 +249,12 @@ glance.factory('Glance', function(FURL, Auth, $firebaseObject, $firebaseArray, $
 		},
 
 		completeTask:function(task) {
-			console.log(task.taskID);
+			//find a way to get mid&pid to complete in mid&pid
+
+			console.log(task);
 			var tid = task.taskID;
-//			var mid = task.milestoneID;
+			var mid = task.milestoneID;
+
 
 			ref.child("users").child(user).child("tasks").child(tid).child("completed").set(true);
 			ref.child("tasks").child(tid).child("usersDone").child(user).set(true);
@@ -255,15 +263,16 @@ glance.factory('Glance', function(FURL, Auth, $firebaseObject, $firebaseArray, $
 			console.log(usersDone);
 
 			usersDone.$loaded(function() {
-				ref.child("tasks").child(tid).child("completed").set(true);
-//				milestonesRef.child(mid).child('tasksDone').child(tid).set(true);
-				angular.forEach(usersDone, function(value, key) {
-					
-					if (value.$value == false) {
-						ref.child("tasks").child(tid).child("completed").set(false);
-//						milestonesRef.child(mid).child('tasksDone').child(tid).set(false);
-					}
-				});
+
+					ref.child("tasks").child(tid).child("completed").set(true);
+					ref.child("milestones").child(mid).child("tasks").child(tid).child("completed").set(true);
+					angular.forEach(usersDone, function(value, key) {
+						
+						if (value.$value == false) {
+							ref.child("tasks").child(tid).child("completed").set(false);
+							ref.child("milestones").child(mid).child("tasks").child(tid).child("completed").set(false);
+						}
+					});
 			});
 		},
 
@@ -280,14 +289,17 @@ glance.factory('Glance', function(FURL, Auth, $firebaseObject, $firebaseArray, $
 		},
 
 		undoTask:function(task) {
+			//find a way to get mid&pid to complete in mid&pid
 			console.log(task);
 			console.log(task.taskID);
 			var tid = task.taskID;
+			var mid = task.milestoneID;
 //			var mid = task.milestoneID;
 
 			ref.child("users").child(user).child("tasks").child(tid).child("completed").set(false);
 			ref.child("tasks").child(tid).child("usersDone").child(user).set(false);	
 			ref.child("tasks").child(tid).child("completed").set(false);
+			ref.child("milestones").child(mid).child("tasks").child(tid).child("completed").set(false);
 //			milestonesRef.child(mid).child('tasksDone').child(tid).set(false);
 
 

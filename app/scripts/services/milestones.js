@@ -36,23 +36,6 @@ glance.factory('Milestones', function(FURL, Auth, $mdDialog, $firebaseAuth, $fir
 
 					//calendar having problems  getting 
 
-					vm.remove = function() {
-
-						var project = $firebaseObject(milestonesRef.child(mid));
-
-						project.$loaded(function(data) {
-
-							projectsRef.child(data.projectID).child("milestones").child(mid).remove();
-
-							milestonesRef.child(mid).remove();
-						});
-
-						//go back to milestones
-
-						$mdDialog.hide();
-					};
-
-
 					vm.update = function() {
 						//Updates at FB locations with updated project
 						ref.child('projects').child(pid).update({
@@ -83,7 +66,33 @@ glance.factory('Milestones', function(FURL, Auth, $mdDialog, $firebaseAuth, $fir
 									ref.child("projects").child(pid).child("completed").set(false);
 								}
 							});
+						});
+						$mdDialog.hide();
+					};
 
+					vm.remove = function() {
+
+						projectsRef.child(pid).child("usersDone").child(user).remove();
+						projectsRef.child(pid).child("members").child(user).remove();
+						ref.child("users").child(user).child("projects").child(pid).remove();
+
+						var checkUsers = $firebaseObject(ref.child("projects").child(pid).child("members"));
+
+						checkUsers.$loaded(function() {
+							var users = [];
+							angular.forEach(checkUsers, function(value, key) {
+								console.log(value);
+								console.log(key);
+
+								users.push(value);
+							});
+
+							console.log(users);
+							console.log(users.length);
+
+							if(users.length == 0) {
+								projectsRef.child(pid).remove();
+							} 
 						});
 
 						$mdDialog.hide();
@@ -222,6 +231,7 @@ glance.factory('Milestones', function(FURL, Auth, $mdDialog, $firebaseAuth, $fir
 								milestoneID: newMilestone.key(),
 								title: milestone.title,
 								description: milestone.description,
+								projectID: milestone.projectID,
 								image: milestone.image,
 								completed: false,
 								priority: milestone.priority,
