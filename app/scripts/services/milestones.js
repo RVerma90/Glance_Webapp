@@ -6,6 +6,7 @@ glance.factory('Milestones', function(FURL, Auth, $mdDialog, $firebaseAuth, $fir
 	var FBmilestones = $firebaseArray(ref.child('milestones'));
 
 	var projectsRef = ref.child('projects');
+	var milestonesRef = ref.child('milestones');
 	var project = $stateParams.pid; 
 	var user = ref.getAuth().uid;
 	var auth = $firebaseAuth(ref);
@@ -26,26 +27,22 @@ glance.factory('Milestones', function(FURL, Auth, $mdDialog, $firebaseAuth, $fir
 
 					var pid = $stateParams.pid;
 
-//					var n = vm.project.deadline;
-
-//					var d = new Date(n).toString();
-
-					//console.log(n);
-
-					//console.log("toString:",d);
-
-					//calendar having problems  getting 
+					vm.project.deadline = new Date(vm.project.deadline);
 
 					vm.update = function() {
+						var date = new Date(vm.project.deadline);
+						vm.project.deadline = date.getTime();
+
 						//Updates at FB locations with updated project
 						ref.child('projects').child(pid).update({
 							title: vm.project.title,
 							description: vm.project.description,
-							priority: vm.project.priority
+							priority: vm.project.priority,
+							deadline: vm.project.deadline
 						});
 
 						//Calls function to update project for all users with access
-						var users = Milestones.updateProjectUsers(vm.project, pid);
+						var sync = Milestones.syncProjectDetails(vm.project, pid);
 						$mdDialog.hide();
 					};
 
@@ -107,11 +104,12 @@ glance.factory('Milestones', function(FURL, Auth, $mdDialog, $firebaseAuth, $fir
 
 		},
 
-		updateProjectUsers: function(p, pid){
+		syncProjectDetails: function(p, pid){
 
-			var projectMembersRef =  $firebaseArray(projectsRef.child(pid).child('members'));
+			//updates in all projects users and all relevant milestones
+			var projectMembersRef =  $firebaseArray(projectsRef.child(pid).child("members"));
 
-			console.log(p);
+			var projectMilestones = $firebaseObject(projectsRef.child(pid).child("milestones"));
 
 			project = {
 				projectID: p.$id,
@@ -123,20 +121,35 @@ glance.factory('Milestones', function(FURL, Auth, $mdDialog, $firebaseAuth, $fir
 				deadline: p.deadline
 			};
 
+			
+
 			console.log(project);
 
 			projectMembers = [];
 
 			projectMembersRef.$loaded(function() {
 				angular.forEach(projectMembersRef, function(value, key) {
-					
 					ref.child("users").child(value.uid).child("projects").child(pid).set(project);
-
 					projectMembers.push(value.uid);
-
 				});
 
 			});
+
+			milestones = [];
+
+			projectMilestones.$loaded(function() {
+				angular.forEach(projectMilestones, function(value, key) {
+
+					var mid = value.milestoneID
+					console.log(value.milestoneID);
+					projectsRef.child(pid).child("milestones").child(mid).child("projectDeadline").set(project.deadline);
+					milestonesRef.child(mid).child("projectDeadline").set(project.deadline);
+
+					milestones.push(value.milestoneID);
+				});
+			});
+
+
 
 			return projectMembers;
 
@@ -199,19 +212,28 @@ glance.factory('Milestones', function(FURL, Auth, $mdDialog, $firebaseAuth, $fir
 					var vm = this;
 					vm.milestone = milestone;
 
+					var pid = $stateParams.pid;
+
+					var project = Milestones.project(pid);
+					var projectDeadline = '';
+
+					project.$loaded(function(p) {
+						projectDeadline = p.deadline;
+						vm.minDate = new Date();
+						vm.maxDate = new Date(projectDeadline);
+					});
+
 					vm.add = function(milestone) {
-
-						var pid = $stateParams.pid;
-
 						milestone.creator = Auth.user.uid;
-
 						milestone.startDate = Firebase.ServerValue.TIMESTAMP;
 						milestone.completed = false;
 						milestone.projectID = pid;
+						milestone.projectDeadline = projectDeadline;
 
-						var date = new Date();
 
-						milestone.deadline = date.getTime() + 1209600000;
+						var date = new Date(milestone.deadline);
+
+						milestone.deadline = date.getTime();
 
     					var x = Math.floor((Math.random() * 100) + 200);		
     					milestone.image = "https://unsplash.it/"+x;				
@@ -235,7 +257,8 @@ glance.factory('Milestones', function(FURL, Auth, $mdDialog, $firebaseAuth, $fir
 								image: milestone.image,
 								completed: false,
 								priority: milestone.priority,
-								deadline: milestone.deadline
+								deadline: milestone.deadline,
+								projectDeadline: milestone.projectDeadline
 							};
 				
 							var obj = {
@@ -266,7 +289,6 @@ glance.factory('Milestones', function(FURL, Auth, $mdDialog, $firebaseAuth, $fir
 					};
 
 					vm.closeDialog = function() {
-						//console.log('deleter');
 						$mdDialog.hide();
 					};
 

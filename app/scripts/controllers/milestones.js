@@ -2,7 +2,8 @@
 
 glance.controller('MilestonesCtrl', 
 	function($scope, 
-			 $state, 
+			 $state,
+			 Nav, 
 			 FURL, 
 			 Milestones,
 			 $stateParams,
@@ -11,7 +12,18 @@ glance.controller('MilestonesCtrl',
 	var project = $stateParams.pid;
 	var p = Milestones.project(project);
 
+	$scope.toggleNavbar = function() {
+	  Nav.toggleNavbar();
+	};
+
 	$scope.currentProject = p;
+
+	var daysLeft = moment(1446163200000).fromNow();
+	$scope.daysLeft = daysLeft;
+
+
+
+	
 	//$scope.admins = Milestones.admins();
 	$scope.contacts = Contacts.show();
 	$scope.members = Milestones.members(project);

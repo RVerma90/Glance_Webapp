@@ -73,11 +73,12 @@ glance.factory('Projects', function(FURL, Auth, User, $mdDialog, $firebaseAuth, 
 						project.startDate = Firebase.ServerValue.TIMESTAMP;
 						project.completed = false;
 
-    					var x = Math.floor((Math.random() * 100) + 200);
-    					project.image = "https://unsplash.it/"+x;
+						var date = new Date(project.deadline);
 
-						var date = new Date();
-						project.deadline = date.getTime() + 2419200000;
+						project.deadline = date.getTime();
+
+    					var x = Math.floor((Math.random() * 100) + 200);
+    					project.image = "https://unsplash.it/"+x;						
 
 						if(project.description == null) {
 							project.description = '';

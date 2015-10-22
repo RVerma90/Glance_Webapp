@@ -1,23 +1,47 @@
-<div>
-    <md-content class="md-padding">
-      <!-- <md-subheader class="md-no-sticky">Tasks</md-subheader> -->
-      
-      <md-subheader class="md-primary">Current Milestone</md-subheader>
-      <md-list>
-        <md-list-item  class="md-2-line contact-item slide" ng-model="currentMilestone" ng-click="updateMilestone($event, currentMilestone)" aria-label="Update Milestone">
-          <img ng-src="{{currentMilestone.image}}" class="md-avatar" alt="{{contact.name}}" />
-          <div class="md-list-item-text compact">
-            <h3>{{currentMilestone.title | capitalize}}</h3>
-            <p>{{currentMilestone.description | capitalize}}</p>
-            <i md-no-ink ng-click="milestoneUsers(currentMilestone)" class="icon ion-person-stalker md-icon-button md-secondary" aria-label="Update Milestone">
-            </i>                     
-          </div>          
-        </md-list-item>
-      <md-list>
+    <md-toolbar class="md-tall toolbar-bg" ng-model="currentMilestone">
+      <div class="md-toolbar-tools">
+          <md-button ng-click="toggleNavbar()" class="md-icon-button" hide-lg aria-label="Sidenav">
+              <i md-no-ink class="icon ion-navicon md-icon-button" aria-label="Sidenav Icon">
+              </i>           
+          </md-button>      
+          <h1>
+            <span>{{currentMilestone.title | capitalize}}</span>
+          </h1>
+          <span flex></span>
 
-      <md-divider ng-if="!$last"></md-divider>
+          <md-button class="md-icon-button" ng-click="updateMilestone($event, currentMilestone)" aria-label="Update Button">
+            <i md-no-ink class="icon ion-edit md-icon-button" aria-label="Update">
+            </i>
+          </md-button>
+
+          <md-button class="md-icon-button" ng-click="milestoneUsers(currentMilestone)" aria-label="Contacts Button">
+            <i md-no-ink class="icon ion-android-person md-icon-button" aria-label="Contacts">
+            </i>
+          </md-button>
+
+          <md-button class="md-icon-button" aria-label="Contacts Button">
+            <i md-no-ink class="icon ion-chatbubble md-icon-button" aria-label="Contacts">
+            </i>
+          </md-button>
+      </div>
+      <div class="md-toolbar-tools">
+          <md-button class="md-icon-button" hide-lg aria-label="gap">
+          </md-button>            
+          <h6 class="marginLeft">
+            <span>{{currentMilestone.description | capitalize}}</span>
+          </h6>
+          <span flex></span>
+            due in 4 days
+          <md-button class="md-icon-button" aria-label="Completion">
+            24%
+          </md-button>
+
+      </div>        
+
+    </md-toolbar>    
+    <md-content class="md-padding">    
       
-      <md-subheader class="md-primary">Tasks</md-subheader>
+      <md-subheader class="md-primary md-no-sticky">Tasks</md-subheader>
       <md-list>
         <md-list-item class="md-2-line contact-item slide" ng-repeat="task in tasks " ng-click="selectTask(task)">
           <img ng-src="{{task.image}}" class="md-avatar"/>
@@ -32,11 +56,11 @@
         </md-list-item>
       <md-list>
 
-
     </md-content>
-</div>
 
 <md-button class="md-fab static" ng-click="addTask($event)" aria-label="Add Task">
   <md-tooltip>Add task</md-tooltip>
     <i class="icon ion-plus-round"></i>
 </md-button>
+
+<div>

@@ -4,9 +4,14 @@ glance.controller('TasksCtrl',
 	function($scope, 
 			 $state, 
 			 FURL,
+			 Nav,
 			 Tasks,
 			 $stateParams,
 			 Milestones) {
+
+	$scope.toggleNavbar = function() {
+	  Nav.toggleNavbar();
+	};
 
 	var project = null;
 

@@ -1,6 +1,6 @@
 'use strict';
 
-glance.controller("NavCtrl", function($scope, $state, $stateParams, $mdSidenav, Auth) {
+glance.controller("NavCtrl", function($scope, Nav, $state, $stateParams, $mdSidenav, Auth) {
 
   $scope.currentUser = Auth.user;
   $scope.signedIn = Auth.signedIn;
@@ -10,7 +10,7 @@ glance.controller("NavCtrl", function($scope, $state, $stateParams, $mdSidenav, 
   };
 
   $scope.toggleNavbar = function() {
-    $mdSidenav('left').toggle();
+    Nav.toggleNavbar();
   };
 
   $scope.goGlanceboard = function() {

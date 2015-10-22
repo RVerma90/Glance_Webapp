@@ -28,22 +28,19 @@ glance.factory('Tasks', function(FURL, Auth, $mdDialog, $firebaseAuth, $firebase
 					vm.milestone = {};
 					vm.milestone = currentMilestone;
 
+					vm.minDate = new Date();
+					vm.maxDate = new Date(vm.milestone.projectDeadline);
+
 					var pid = vm.milestone.projectID;
 
 					var mid = $stateParams.mid;
 
-//					var n = vm.project.deadline;
-
-//					var d = new Date(n).toString();
-
-					//console.log(n);
-
-					//console.log("toString:",d);
-
-					//calendar having problems  getting 
-
+					vm.milestone.deadline = new Date(vm.milestone.deadline);
 
 					vm.update = function() {
+						var date = new Date(vm.milestone.deadline);
+						vm.milestone.deadline = date.getTime();
+
 						//Updates at FB locations with updated project
 						milestonesRef.child(mid).update({
 							title: vm.milestone.title,
@@ -60,7 +57,7 @@ glance.factory('Tasks', function(FURL, Auth, $mdDialog, $firebaseAuth, $firebase
 						});
 
 
-						var users = Tasks.updateMilestoneUsers(vm.milestone, mid);
+						var users = Tasks.syncMilestoneDetails(vm.milestone, mid);
 						$mdDialog.hide();
 
 
@@ -133,11 +130,12 @@ glance.factory('Tasks', function(FURL, Auth, $mdDialog, $firebaseAuth, $firebase
 		},
 
 
-		updateMilestoneUsers: function(m, mid){
+		syncMilestoneDetails: function(m, mid){
 
+			//updates in all projects users and all relevant milestones
 			var milestoneMembersRef =  $firebaseArray(milestonesRef.child(mid).child('members'));
 
-			console.log(m);
+			var milestoneTasks =  $firebaseArray(milestonesRef.child(mid).child('tasks'));
 
 			milestone = {
 				milestoneID: m.$id,
@@ -147,7 +145,8 @@ glance.factory('Tasks', function(FURL, Auth, $mdDialog, $firebaseAuth, $firebase
 				image: m.image,
 				completed: m.completed,
 				priority: m.priority,
-				deadline: m.deadline
+				deadline: m.deadline,
+				projectDeadline: m.projectDeadline
 			};
 
 			console.log(milestone);
@@ -156,14 +155,31 @@ glance.factory('Tasks', function(FURL, Auth, $mdDialog, $firebaseAuth, $firebase
 
 			milestoneMembersRef.$loaded(function() {
 				angular.forEach(milestoneMembersRef, function(value, key) {
-					
 					ref.child("users").child(value.uid).child("milestones").child(mid).set(milestone);
-
 					milestoneMembers.push(value.uid);
-
 				});
-				console.log(milestoneMembers);
 			});
+
+
+			tasks = [];
+
+			milestoneTasks.$loaded(function() {
+				angular.forEach(milestoneTasks, function(value, key) {
+					var tid = value.taskID
+					console.log(value.taskID);
+					console.log(tid);
+				
+					milestonesRef.child(mid).child("tasks").child(tid).child("milestoneDeadline").set(milestone.deadline);
+					tasksRef.child(tid).child("milestoneDeadline").set(milestone.deadline);
+				
+					angular.forEach(milestoneMembers, function(value, key) {
+						console.log("yo",value);
+						ref.child("users").child(value).child("tasks").child(tid).child("milestoneDeadline").set(milestone.deadline);
+					});
+					tasks.push(value.taskID);
+				});
+			});
+
 
 			return milestoneMembers;
 
@@ -202,6 +218,7 @@ glance.factory('Tasks', function(FURL, Auth, $mdDialog, $firebaseAuth, $firebase
 			milestone.completed = m.completed;
 			milestone.priority = m.priority;
 			milestone.deadline = m.deadline;
+			milestone.projectDeadline = m.projectDeadline;
 			
 
 			milestonesRef.child(m.$id).child('members').child(member.uid).set(newMember);
@@ -229,19 +246,27 @@ glance.factory('Tasks', function(FURL, Auth, $mdDialog, $firebaseAuth, $firebase
 					var vm = this;
 					vm.task = task;
 
+					var mid = $stateParams.mid;
+
+					var milestone = Tasks.milestone(mid);
+					var milestoneDeadline = '';
+
+					milestone.$loaded(function(m) {
+						milestoneDeadline = m.deadline;
+						vm.minDate = new Date();
+						vm.maxDate = new Date(milestoneDeadline);
+					});
+
 					vm.add = function(task) {
-
-						var mid = $stateParams.mid;
-
 						task.creator = Auth.user.uid;
-						task.admin = Auth.user.uid;
 						task.startDate = Firebase.ServerValue.TIMESTAMP;
 						task.completed = false;
 						task.milestoneID = mid;
+						task.milestoneDeadline = milestoneDeadline;
 
-						var date = new Date();
+						var date = new Date(task.deadline);
 
-						task.deadline = date.getTime() + 604800000;	
+						task.deadline = date.getTime();
 
 						var x = Math.floor((Math.random() * 100) + 200);
     					task.image = "https://unsplash.it/"+x;		
@@ -265,7 +290,8 @@ glance.factory('Tasks', function(FURL, Auth, $mdDialog, $firebaseAuth, $firebase
 								image: task.image,
 								completed: false,
 								priority: task.priority,
-								deadline: task.deadline
+								deadline: task.deadline,
+								milestoneDeadline: task.milestoneDeadline
 							};
 
 

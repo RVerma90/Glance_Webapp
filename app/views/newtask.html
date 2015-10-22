@@ -3,7 +3,7 @@
 	<md-dialog-content>
 		<form name="newtaskform" ng-submit="addT(TAmodal)">
 			<div>
-				<md-datepicker ng-model="TAmodal.task.deadline" md-placeholder="Deadline"></md-datepicker>
+				<md-datepicker ng-model="TAmodal.task.deadline" md-min-date="TAmodal.minDate" md-max-date="TAmodal.maxDate" md-placeholder="Deadline"></md-datepicker>
 				<md-input-container>
 					<label>Task Title</label>
 					<input ng-model="TAmodal.task.title" required>

@@ -4,15 +4,15 @@ glance.factory('Memo', function(Glance) {
 	
 	var p = Glance.projects();
 
-	console.log("p",p);
+//	console.log("p",p);
 
 	var m = Glance.milestones();
 
-	console.log("m",m);
+//	console.log("m",m);
 
 	var t = Glance.tasks();
 
-	console.log("t",t);
+//	console.log("t",t);
 
 	var memo = [{'name':'Pippo','text':'Hello'},
 					{'name':'Pluto','text':'Hello'},
@@ -31,7 +31,7 @@ glance.factory('Memo', function(Glance) {
 			memos.push(m);
 			memos.push(t);
 
-			console.log(memos);
+//			console.log(memos);
 
 
 

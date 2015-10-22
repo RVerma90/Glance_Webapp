@@ -1,7 +1,10 @@
 'use strict';
 
-glance.controller('GlanceCtrl', function($scope, Auth, Glance, Projects, Milestones, Tasks, $timeout) {
+glance.controller('GlanceCtrl', function($scope, Nav, Auth, Glance, Projects, Milestones, Tasks, $timeout, $mdSidenav) {
 
+	$scope.toggleNavbar = function() {
+	  Nav.toggleNavbar();
+	};
 
 	var p = Glance.projects();
 

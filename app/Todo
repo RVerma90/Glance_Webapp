@@ -10,17 +10,23 @@ done/completion option individualised in projects & milestones like in tasks
 
 done/p,m,t removal and sync
 
+done/md-datepicker with min/max date
 
+done/sync deadline changes everywhere
+
+
+delay by task 1 day, ms 2 days, projects 4 days
+chat
 
 performance... figure out why app loses data..
 
 
 
-md-datepicker
-
-delay by task 1 day, ms 2 days, projects 4 days
-chat
-
+security
 
 
 adding image, links, rest?
+
+
+
+

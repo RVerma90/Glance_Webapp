@@ -1,6 +1,10 @@
 'use strict';
 
-glance.controller('ContactsCtrl', function($scope, FURL, Contacts, Auth, $mdToast) {
+glance.controller('ContactsCtrl', function($scope, Nav, FURL, Contacts, Auth, $mdToast) {
+
+	$scope.toggleNavbar = function() {
+	  Nav.toggleNavbar();
+	};
 
 	$scope.contacts = Contacts.show();
 

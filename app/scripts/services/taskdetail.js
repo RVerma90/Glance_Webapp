@@ -16,7 +16,6 @@ glance.factory('Task', function(FURL, Auth, $mdDialog, $firebaseAuth, $firebaseO
 	var Task = {
 	
 		update: function(e, task) {
-
 			return $mdDialog.show({
 				clickOutsideToClose: true,
 				controller: function($mdDialog) {
@@ -24,13 +23,14 @@ glance.factory('Task', function(FURL, Auth, $mdDialog, $firebaseAuth, $firebaseO
 					vm.task = {};
 					vm.task = task;
 
-					console.log(task);
-
+					vm.minDate = new Date();
+					vm.maxDate = new Date(vm.task.milestoneDeadline);
 					//get MID from task.milestoneID
 					var mid = vm.task.milestoneID;
-
 					//get TID from stateParams
 					var tid = $stateParams.tid;	
+
+					vm.task.deadline = new Date(vm.task.deadline);
 
 					//get PID
 					var proj = $firebaseObject(milestonesRef.child(mid).child("projectID"));
@@ -40,10 +40,11 @@ glance.factory('Task', function(FURL, Auth, $mdDialog, $firebaseAuth, $firebaseO
 						console.log(pid);
 					});
 
-							console.log(mid);
-
 
 					vm.update = function() {
+						var date = new Date(vm.task.deadline);
+						vm.task.deadline = date.getTime();
+
 						//Updates at FB locations with updated task
 						ref.child('tasks').child(tid).update({
 							title: vm.task.title,
@@ -167,10 +168,12 @@ glance.factory('Task', function(FURL, Auth, $mdDialog, $firebaseAuth, $firebaseO
 				taskID: t.$id,
 				title: t.title,
 				description: t.description,
+				milestoneID: t.milestoneID,
 				image: t.image,
 				completed: t.completed,
 				priority: t.priority,
-				deadline: t.deadline
+				deadline: t.deadline,
+				milestoneDeadline: t.milestoneDeadline
 			};
 
 			console.log(task);

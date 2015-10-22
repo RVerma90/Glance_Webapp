@@ -1,24 +1,46 @@
-<div>
+    <md-toolbar class="md-tall toolbar-bg" ng-model="currentProject">
+      <div class="md-toolbar-tools">
+          <md-button ng-click="toggleNavbar()" class="md-icon-button" hide-lg aria-label="Sidenav">
+              <i md-no-ink class="icon ion-navicon md-icon-button" aria-label="Sidenav Icon">
+              </i>           
+          </md-button>      
+          <h1>
+            <span>{{currentProject.title | capitalize}}</span>
+          </h1>
+          <span flex></span>
+
+          <md-button class="md-icon-button" ng-click="updateProject($event, currentProject)" aria-label="Update Button">
+            <i md-no-ink class="icon ion-edit md-icon-button" aria-label="Update">
+            </i>
+          </md-button>
+
+          <md-button class="md-icon-button" ng-click="projectUsers(currentProject)" aria-label="Contacts Button">
+            <i md-no-ink class="icon ion-android-person md-icon-button" aria-label="Contacts">
+            </i>
+          </md-button>
+
+          <md-button class="md-icon-button" aria-label="Contacts Button">
+            <i md-no-ink class="icon ion-chatbubble md-icon-button" aria-label="Contacts">
+            </i>
+          </md-button>
+      </div>
+      <div class="md-toolbar-tools">
+          <md-button class="md-icon-button" hide-lg aria-label="gap">
+          </md-button>            
+          <h6 class="marginLeft">
+            <span>{{currentProject.description | capitalize}}</span>
+          </h6>
+          <span flex></span>
+            due {{daysLeft}}
+          <md-button class="md-icon-button" aria-label="Completion">
+            84%
+          </md-button>
+      </div>      
+
+    </md-toolbar>    
     <md-content class="md-padding">
-      <!-- <md-subheader class="md-no-sticky">Milestones</md-subheader> -->
 
-      <md-subheader class="md-primary">Current Project</md-subheader>
-      <md-list>
-        <md-list-item  class="md-2-line contact-item slide" ng-model="currentProject" ng-click="updateProject($event, currentProject)" aria-label="Update Project">
-          <img ng-src="{{currentProject.image}}" class="md-avatar"/>
-          <div class="md-list-item-text compact">
-            <h3>{{currentProject.title | capitalize}}</h3>
-            <p>{{currentProject.description | capitalize}}</p>
-            <i md-no-ink ng-click="projectUsers(currentProject)" class="icon ion-person-stalker md-icon-button md-secondary" aria-label="Update Milestone">
-            </i>             
-          </div>          
-        </md-list-item>
-      <md-list>
-
-
-      <md-divider ng-if="!$last"></md-divider>
-
-      <md-subheader class="md-primary">Milestones</md-subheader>
+      <md-subheader class="md-primary md-no-sticky">Milestones</md-subheader>
       <md-list>
         <md-list-item class="md-2-line contact-item slide" ng-repeat="milestone in milestones" ng-click="selectMilestone(milestone)">
           <img ng-src="{{milestone.image}}" class="md-avatar"/>
@@ -33,7 +55,6 @@
         </md-list-item>
       <md-list>
     </md-content>
-</div>
 
 <md-button class="md-fab static" ng-click="addMilestone($event)" aria-label="Add Milestone">
   <md-tooltip>Add milestone</md-tooltip>

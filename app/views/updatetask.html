@@ -3,7 +3,7 @@
 	<md-dialog-content>
 		<form name="updatetaskform" ng-submit="updateT(TEmodal)">
 			<div>
-				<md-datepicker ng-model="TEmodal.task.deadline" md-placeholder="Deadline"></md-datepicker>
+				<md-datepicker ng-model="TEmodal.task.deadline" md-min-date="TEmodal.minDate" md-max-date="TEmodal.maxDate" md-placeholder="Deadline"></md-datepicker>
 
 				<md-input-container>
 					<label>Task Title</label>
@@ -30,7 +30,7 @@
 		</form>
   	</md-dialog-content>
 
-</md-dialog>
+</md-dialog>w
 
 
 

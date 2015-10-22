@@ -1,16 +1,22 @@
-<div class="projectsbg">
+    <md-toolbar class="md-tall toolbar-bg" layout="row">
+      <md-button ng-click="toggleNavbar()" class="md-icon-button" hide-lg aria-label="Sidenav">
+          <i md-no-ink class="icon ion-navicon md-icon-button" aria-label="Sidenav Icon">
+          </i>           
+      </md-button>      
+      <h1 class="md-toolbar-tools">Projects</h1>
+    </md-toolbar>      
   	<md-content class="md-padding">
-  		<!-- <md-subheader class="md-no-sticky">Projects</md-subheader> -->
-      <md-subheader class="md-primary">All Projects</md-subheader>
+      <md-subheader class="md-primary md-no-sticky">All Projects</md-subheader>
       <md-list>
     		<md-list-item class="md-2-line contact-item slide" ng-repeat="project in projects" ng-click="selectProject(project)">
           <img ng-src="{{project.image}}" class="md-avatar"/>
           <div class="md-list-item-text compact">
             <h3>{{project.title | capitalize}}</h3>
             <p>{{project.description | capitalize}}</p>
+            <!--
             <i md-no-ink ng-click="remove(project)" ng-class="myClass" class="icon md-icon-button md-secondary" aria-label="Update Milestone">
-            </i>                       
-            <!--<md-checkbox class="md-secondary" ng-model="project.completed"></md-checkbox>       -->
+            </i>                       -->
+            <md-checkbox class="md-secondary" ng-model="project.completed"></md-checkbox>
           </div>            
           <md-divider ng-if="!$last"></md-divider>
     		</md-list-item>
@@ -35,7 +41,6 @@
 -->
 
   	</md-content>
-</div>
 
 <md-button class="md-fab static" ng-click="addProject($event)" aria-label="Add Project">
   <md-tooltip>Add project</md-tooltip>

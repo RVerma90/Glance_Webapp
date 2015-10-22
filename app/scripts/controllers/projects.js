@@ -4,8 +4,13 @@ glance.controller('ProjectsCtrl',
 	function($scope, 
 			 $state, 
 			 FURL,
+			 Nav,
 			 Projects,
 			 $stateParams) {
+
+	$scope.toggleNavbar = function() {
+	  Nav.toggleNavbar();
+	};
 
 	$scope.projects = Projects.show();		
 

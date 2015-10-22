@@ -95,13 +95,13 @@ glance.factory('Glance', function(FURL, Auth, $firebaseObject, $firebaseArray, $
 		},
 
 		skipProject: function(project) {
-			console.log(milestone.deadline);
+			console.log(project.deadline);
 
-			var dayinms = 345600000; //4 days
+			var dayinms = 86400000; //1 day
 
-			milestone.deadline = milestone.deadline + dayinms;
+			project.deadline = project.deadline + dayinms;
 
-			console.log(milestone.deadline);
+			console.log(project.deadline);
 
 		},
 

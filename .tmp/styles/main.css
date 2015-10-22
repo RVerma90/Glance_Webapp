@@ -27,7 +27,13 @@ body {
 }
 
 .sidenav-bg {
-  background-image: url("/sidenavbg.png");
+  background-image: url("/themes/sidenav2.png");
+  background-size: 100% 100%;
+}
+
+.toolbar-bg {
+  background-image: url("/themes/toolbar2.png");
+  background-size: 100% 100%;
 }
 
 .tabs {
