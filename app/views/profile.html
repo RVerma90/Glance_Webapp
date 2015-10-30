@@ -1,0 +1,36 @@
+<md-toolbar class="md-tall toolbar-bg" layout="row">
+	<div class="md-toolbar-tools">
+		<md-button ng-click="toggleNavbar()" class="md-icon-button" hide-lg aria-label="Sidenav">
+	    	<i md-no-ink class="icon ion-navicon md-icon-button" aria-label="Sidenav Icon">
+	      	</i>           
+	  	</md-button>  
+	  	<h1>
+	  		<span>Profile</span>
+	  	</h1>
+	</div>
+</md-toolbar>
+
+<md-content class="md-padding content-bg">
+
+	<form name="changeprofileimage" layout="">
+		<md-input-container flex>
+			<label>Profile Image Link</label>
+			<input ng-model="link">
+		</md-input-container>
+
+		<md-button ng-click="update(link)" type="submit" value="Post" class="md-accent">
+      		Update Image
+       	 </md-button>
+	</form>
+
+
+
+	<md-button ng-click="authData()">Auth Data</md-button>
+	<br>
+	change email?
+	<br>
+
+	paid user/ freemium
+
+
+</md-content>

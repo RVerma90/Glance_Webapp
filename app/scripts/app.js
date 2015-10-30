@@ -43,12 +43,12 @@ var glance = angular.module('GlanceApp', [
         templateUrl: 'views/auth.html',
         controller: 'AuthCtrl'        
       })          
-      .state('glanceboard', {
-        url: '/glanceboard/:uid',
-        templateUrl: 'views/glanceboard.html',
+      .state('glance', {
+        url: '/glance/:uid',
+        templateUrl: 'views/glance.html',
         controller: 'GlanceCtrl',
         data: {
-          stateName: 'Glanceboard'
+          stateName: 'Glance'
         },
         resolve: {
           currentAuth: ['Auth', function(Auth) {
@@ -147,6 +147,45 @@ var glance = angular.module('GlanceApp', [
           }]
         }               
       })
+      .state('projectmessage', {
+        url: '/projectchat/:pid',
+        templateUrl: "views/projectmessage.html",
+        controller: "ProjectMessageCtrl",
+        data: {
+          stateName: 'ProjectMessage'
+        },        
+        resolve: {
+          currentAuth: ['Auth', function(Auth) {
+            return Auth.requireAuth();
+          }]
+        }               
+      })     
+      .state('milestonemessage', {
+        url: '/milestonechat/:mid',
+        templateUrl: "views/milestonemessage.html",
+        controller: "MilestoneMessageCtrl",
+        data: {
+          stateName: 'MilestoneMessage'
+        },        
+        resolve: {
+          currentAuth: ['Auth', function(Auth) {
+            return Auth.requireAuth();
+          }]
+        }               
+      })     
+      .state('taskmessage', {
+        url: '/taskchat/:tid',
+        templateUrl: "views/taskmessage.html",
+        controller: "TaskMessageCtrl",
+        data: {
+          stateName: 'TaskMessage'
+        },        
+        resolve: {
+          currentAuth: ['Auth', function(Auth) {
+            return Auth.requireAuth();
+          }]
+        }               
+      })                  
       .state('contacts', {
         url: '/contacts',
         templateUrl: "views/contacts.html",
@@ -160,12 +199,12 @@ var glance = angular.module('GlanceApp', [
           }]
         }               
       })      
-      .state('settings', {
-        url: '/settings',
-        templateUrl: "views/settings.html",
-        controller: "SettingsCtrl",
+      .state('profile', {
+        url: '/profile',
+        templateUrl: "views/profile.html",
+        controller: "ProfileCtrl",
         data: {
-          stateName: 'Settings'
+          stateName: 'Profile'
         },        
         resolve: {
           currentAuth: ['Auth', function(Auth) {

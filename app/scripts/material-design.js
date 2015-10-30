@@ -3,9 +3,10 @@ glance
 .config(function($mdThemingProvider) {
   $mdThemingProvider.theme('default')
     .primaryPalette('blue')
-    .accentPalette('orange');
+    .accentPalette('orange', {
+    	'default': '500'
+    });
 })
-
 
 .config(function($mdDateLocaleProvider) {
     $mdDateLocaleProvider.formatDate = function(date) {

@@ -26,14 +26,29 @@ body {
   border-radius: 50%;
 }
 
+.seeThrough {
+  background-color: transparent;
+}
+
 .sidenav-bg {
-  background-image: url("/themes/sidenav2.png");
+  background-image: url("/themes/navtoolbar2.png");
+  background-size: 100% 100%;
+}
+
+.sidenav-content-bg {
+  background-image: url("/themes/navcontentbg.jpg");
   background-size: 100% 100%;
 }
 
 .toolbar-bg {
-  background-image: url("/themes/toolbar2.png");
+  background-image: url("/themes/toolbar3.png");
   background-size: 100% 100%;
+}
+
+.content-bg {
+  background-image: url("/themes/contentbg.jpg");
+  background-size: 100% 100%;
+    height: 100vh;
 }
 
 .tabs {
@@ -55,4 +70,17 @@ body {
     display: block;
     width: 80px;
     height: 80px;
+}
+
+
+.marginLeft {
+  margin-left: 0px;
+}
+
+.grayscale { 
+  -webkit-filter: grayscale(100%);
+  -moz-filter: grayscale(100%);
+  -ms-filter: grayscale(100%);
+  -o-filter: grayscale(100%);
+  filter: grayscale(100%);
 }

@@ -19,7 +19,7 @@
             </i>
           </md-button>
 
-          <md-button class="md-icon-button" aria-label="Contacts Button">
+          <md-button class="md-icon-button" ng-click="message(currentProject)" aria-label="Contacts Button">
             <i md-no-ink class="icon ion-chatbubble md-icon-button" aria-label="Contacts">
             </i>
           </md-button>
@@ -31,24 +31,22 @@
             <span>{{currentProject.description | capitalize}}</span>
           </h6>
           <span flex></span>
-            due {{daysLeft}}
-          <md-button class="md-icon-button" aria-label="Completion">
-            84%
-          </md-button>
+            {{currentProject.deadline | deadline}}
+
       </div>      
 
     </md-toolbar>    
-    <md-content class="md-padding">
+    <md-content class="md-padding content-bg">
 
-      <md-subheader class="md-primary md-no-sticky">Milestones</md-subheader>
+      <md-subheader class="md-primary md-no-sticky seeThrough">Milestones</md-subheader>
       <md-list>
         <md-list-item class="md-2-line contact-item slide" ng-repeat="milestone in milestones" ng-click="selectMilestone(milestone)">
           <img ng-src="{{milestone.image}}" class="md-avatar"/>
           <div class="md-list-item-text compact">
             <h3>{{milestone.title}}</h3>
             <p class="md-primary">{{milestone.description}}</p>     
-            <md-checkbox class="md-secondary" ng-model="milestone.completed"></md-checkbox>       
-<!--            <i md-no-ink ng-click="updateMilestone($event, milestone)" class="icon ion-edit md-icon-button md-secondary" aria-label="Update Milestone">
+<!--            <md-checkbox class="md-secondary" ng-model="milestone.completed"></md-checkbox>       
+            <i md-no-ink ng-click="updateMilestone($event, milestone)" class="icon ion-edit md-icon-button md-secondary" aria-label="Update Milestone">
             </i> -->
           </div>
           <md-divider ng-if="!$last"></md-divider>

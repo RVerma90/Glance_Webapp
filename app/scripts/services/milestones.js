@@ -1,12 +1,15 @@
 'user strict';
 
-glance.factory('Milestones', function(FURL, Auth, $mdDialog, $firebaseAuth, $firebaseObject, $firebaseArray, $stateParams, $timeout) {
+glance.factory('Milestones', function(FURL, Auth, $mdDialog, $firebaseAuth, $firebaseObject, $firebaseArray, $stateParams, $state, $timeout) {
 
 	var ref = new Firebase(FURL);
 	var FBmilestones = $firebaseArray(ref.child('milestones'));
 
+	var usersRef = ref.child('users');
 	var projectsRef = ref.child('projects');
 	var milestonesRef = ref.child('milestones');
+	var tasksRef = ref.child('tasks');
+
 	var project = $stateParams.pid; 
 	var user = ref.getAuth().uid;
 	var auth = $firebaseAuth(ref);
@@ -49,18 +52,18 @@ glance.factory('Milestones', function(FURL, Auth, $mdDialog, $firebaseAuth, $fir
 
 					vm.complete = function() {
 
-						ref.child("users").child(user).child("projects").child(pid).child("completed").set(true);
+						usersRef.child(user).child("projects").child(pid).child("completed").set(true);
 						projectsRef.child(pid).child("usersDone").child(user).set(true);			
 
-						var usersDone = $firebaseArray(ref.child("projects").child(pid).child("usersDone"));
+						var usersDone = $firebaseArray(projectsRef.child(pid).child("usersDone"));
 						console.log(usersDone);
 
 						usersDone.$loaded(function() {
-							ref.child("projects").child(pid).child("completed").set(true);
+							projectsRef.child(pid).child("completed").set(true);
 							angular.forEach(usersDone, function(value, key) {
 
 								if (value.$value == false) {
-									ref.child("projects").child(pid).child("completed").set(false);
+									projectsRef.child(pid).child("completed").set(false);
 								}
 							});
 						});
@@ -68,6 +71,80 @@ glance.factory('Milestones', function(FURL, Auth, $mdDialog, $firebaseAuth, $fir
 					};
 
 					vm.remove = function() {
+
+						var pMilestones = $firebaseObject(projectsRef.child(pid).child("milestones"));
+
+
+						pMilestones.$loaded(function() {
+							angular.forEach(pMilestones, function(value, key) {
+
+								var mid = value.milestoneID;
+								console.log(mid);
+
+								//First Tasks
+								var pmTasks = $firebaseObject(milestonesRef.child(mid).child("tasks"));
+								pmTasks.$loaded(function() {
+									angular.forEach(pmTasks, function(value, key) {
+
+										var tid = value.taskID;
+										console.log(tid);
+
+
+										tasksRef.child(tid).child("usersDone").child(user).remove();
+										tasksRef.child(tid).child("members").child(user).remove();
+										usersRef.child(user).child("tasks").child(tid).remove();
+
+										var checkUsers = $firebaseObject(ref.child("tasks").child(tid).child("members"));
+										checkUsers.$loaded(function() {
+											var users = [];
+											angular.forEach(checkUsers, function(value, key) {
+												console.log(value);
+												console.log(key);
+
+												users.push(value);
+											});
+
+											console.log(users);
+											console.log(users.length);
+											if(users.length == 0) {
+												tasksRef.child(tid).remove();
+												milestonesRef.child(mid).child('tasks').child(tid).remove();
+												projectsRef.child(pid).child("tasks").child(tid).remove();
+											} 
+										});
+
+									});
+
+								});
+
+
+								//Second Milestones
+								milestonesRef.child(mid).child("usersDone").child(user).remove();
+								milestonesRef.child(mid).child("members").child(user).remove();
+								usersRef.child(user).child("milestones").child(mid).remove();
+
+								var checkUsers = $firebaseObject(milestonesRef.child(mid).child("members"));
+								checkUsers.$loaded(function() {
+									var users = [];
+									angular.forEach(checkUsers, function(value, key) {
+										console.log(value);
+										console.log(key);
+
+										users.push(value);
+									});
+
+									console.log(users);
+									console.log(users.length);
+									if(users.length == 0) {
+										milestonesRef.child(mid).remove();
+										projectsRef.child(pid).child("milestones").child(mid).remove();
+									} 								
+								});
+
+							});
+						});
+
+						//Third Project
 
 						projectsRef.child(pid).child("usersDone").child(user).remove();
 						projectsRef.child(pid).child("members").child(user).remove();
@@ -93,6 +170,7 @@ glance.factory('Milestones', function(FURL, Auth, $mdDialog, $firebaseAuth, $fir
 						});
 
 						$mdDialog.hide();
+						$state.go("projects");
 					};
 
 				},
@@ -130,6 +208,7 @@ glance.factory('Milestones', function(FURL, Auth, $mdDialog, $firebaseAuth, $fir
 			projectMembersRef.$loaded(function() {
 				angular.forEach(projectMembersRef, function(value, key) {
 					ref.child("users").child(value.uid).child("projects").child(pid).set(project);
+					ref.child("users").child(value.uid).child("projects").child(pid).set(project);
 					projectMembers.push(value.uid);
 				});
 
@@ -144,6 +223,12 @@ glance.factory('Milestones', function(FURL, Auth, $mdDialog, $firebaseAuth, $fir
 					console.log(value.milestoneID);
 					projectsRef.child(pid).child("milestones").child(mid).child("projectDeadline").set(project.deadline);
 					milestonesRef.child(mid).child("projectDeadline").set(project.deadline);
+
+					angular.forEach(projectMembers, function(value, key) {
+						console.log("yo",value);
+						ref.child("users").child(value).child("milestones").child(mid).child("projectDeadline").set(project.deadline);
+					});
+
 
 					milestones.push(value.milestoneID);
 				});
@@ -230,9 +315,7 @@ glance.factory('Milestones', function(FURL, Auth, $mdDialog, $firebaseAuth, $fir
 						milestone.projectID = pid;
 						milestone.projectDeadline = projectDeadline;
 
-
 						var date = new Date(milestone.deadline);
-
 						milestone.deadline = date.getTime();
 
     					var x = Math.floor((Math.random() * 100) + 200);		
@@ -240,11 +323,16 @@ glance.factory('Milestones', function(FURL, Auth, $mdDialog, $firebaseAuth, $fir
 
 						if(milestone.description == null) {
 							milestone.description = '';
-						}			
+						};			
 
 						if(milestone.priority == null) {
-							milestone.priority = 0;
-						}			
+							milestone.priority = 1;
+						};				
+
+						if(isNaN(milestone.deadline)) {
+							var now = new Date();
+							milestone.deadline = now.getTime() + 432000000; //5days
+						};
 
 						FBmilestones.$add(milestone)
 						.then(function(newMilestone) {

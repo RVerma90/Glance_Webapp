@@ -3,7 +3,6 @@
 glance.controller('TaskDetailCtrl', 
 	function($scope, 
 			 $state, 
-			 FURL,
 			 Nav,
 			 Task,
 			 $stateParams,
@@ -35,5 +34,8 @@ glance.controller('TaskDetailCtrl',
 		Task.update(e, task);
 	};
 
+	$scope.message = function() {
+		$state.transitionTo("taskmessage", {tid: task});
+	};
 
 });

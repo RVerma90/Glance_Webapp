@@ -24,13 +24,10 @@ glance.factory('Auth', function(FURL, $firebaseAuth, $firebaseObject, $firebaseA
 		},
 
 		getProfile: function(uid) {
-			
 			auth.$onAuth(function(authData) {
 				TheUser = authData.uid;
 				console.log("test",TheUser);
-
 			});
-			
 		},
 
 		login: function(user) {

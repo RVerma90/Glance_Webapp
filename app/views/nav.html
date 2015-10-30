@@ -3,7 +3,7 @@
   <section layout="row" flex>
 
     <md-sidenav ng-show="signedIn()" class="md-sidenav-left md-whiteframe-z2 sideNav" md-component-id="left" md-is-locked-open="$mdMedia('lg')" layout="column">
-      <md-toolbar class="md-tall" layout="column">
+      <md-toolbar class="md-tall sidenav-bg" layout="column">
         <br>
         <div class="md-toolbar-tools">
           <img class="img-circle profileImage" ng-src="{{currentUser.userData.profileImage}}"/>
@@ -12,23 +12,25 @@
         <h6 class="md-toolbar-tools">{{currentUser.userData.firstName | capitalize}} {{currentUser.userData.lastName | capitalize}} {{currentUser.userData.displayName}}</h6>
       </md-toolbar>
 
-      <md-content flex>
+      <md-content class="sidenav-content-bg" flex>
         <md-list>
-          <md-list-item ng-click="goGlanceboard()">
+          <md-list-item ng-click="goGlance()">
             Glance
           </md-list-item>
           <md-list-item ng-click="goProjects()">
             Projects
           </md-list-item>
-          <md-list-item ng-click="goMemo()">
+<!--          <md-list-item ng-click="goMemo()">
             Memo
           </md-list-item>
+          
           <md-divider></md-divider>
-          <md-list-item ng-click="goProfile()">
+-->          
+          <md-list-item ng-click="goContact()">
             Contacts
           </md-list-item>
-          <md-list-item ng-click="goSettings()">
-            Settings
+          <md-list-item ng-click="goProfile()">
+            Profile
           </md-list-item>
           <md-list-item ng-click="logout()">
             Logout

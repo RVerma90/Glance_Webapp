@@ -1,15 +1,23 @@
-    <md-toolbar class="md-tall toolbar-bg" layout="row">
+<md-toolbar class="md-tall toolbar-bg" layout="row">
+      
+  <div class="md-toolbar-tools">
       <md-button ng-click="toggleNavbar()" class="md-icon-button" hide-lg aria-label="Sidenav">
           <i md-no-ink class="icon ion-navicon md-icon-button" aria-label="Sidenav Icon">
           </i>           
       </md-button>      
-      <h1 class="md-toolbar-tools">{{currentMilestone.title | capitalize}}</h1>
-    </md-toolbar>  
+      <h1>
+      	<span>{{currentMilestone.title | capitalize}}</span>
+      	<i md-no-ink class="icon ion-android-person md-icon-button" aria-label="Contacts">
+      	</i>        	
+      </h1>
+	            
+  </div>
+ </md-toolbar>  
 
-    <md-content class="md-padding">
+    <md-content class="md-padding content-bg">
 
 
-			<md-subheader class="md-primary md-no-sticky">Current Milestone Members</md-subheader>
+			<md-subheader class="md-primary md-no-sticky seeThrough">Current Milestone Members</md-subheader>
 			<md-list>
 	    		<md-list-item class="md-2-line contact-item" ng-repeat="member in members" ng-click="role(member)">		
 	    			<img ng-src="{{member.profileImage}}" class="md-avatar" alt="{{contact.name}}">          
@@ -22,7 +30,7 @@
 			    <md-list>
 
 
-    			<md-subheader class="md-primary md-no-sticky">Project Members</md-subheader>
+    			<md-subheader class="md-primary md-no-sticky seeThrough">Project Members</md-subheader>
 				<md-list>
 		    		<md-list-item class="md-2-line contact-item" ng-repeat="user in projectUsers" ng-click="addMember(user)">
 		           		<img ng-src="{{user.profileImage}}" class="md-avatar" alt="{{user.name}}" />

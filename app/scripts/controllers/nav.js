@@ -13,8 +13,8 @@ glance.controller("NavCtrl", function($scope, Nav, $state, $stateParams, $mdSide
     Nav.toggleNavbar();
   };
 
-  $scope.goGlanceboard = function() {
-    $state.go("glanceboard");
+  $scope.goGlance = function() {
+    $state.go("glance");
     $mdSidenav('left').close();
   };
 
@@ -28,13 +28,13 @@ glance.controller("NavCtrl", function($scope, Nav, $state, $stateParams, $mdSide
     $mdSidenav('left').close();
   };    
 
-  $scope.goProfile = function() {
+  $scope.goContact = function() {
     $state.go("contacts");
     $mdSidenav('left').close();
   };
 
-  $scope.goSettings = function() {
-    $state.go("settings");
+  $scope.goProfile = function() {
+    $state.go("profile");
     $mdSidenav('left').close();
   };      
 

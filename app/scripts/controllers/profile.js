@@ -1,6 +1,6 @@
   'use strict';
 
-glance.controller('SettingsCtrl', function($scope, Nav, User) {
+glance.controller('ProfileCtrl', function($scope, Nav, User) {
  
 	$scope.toggleNavbar = function() {
 	  Nav.toggleNavbar();
@@ -10,14 +10,6 @@ glance.controller('SettingsCtrl', function($scope, Nav, User) {
 		User.updateImage(link);
 		$scope.link = '';
 	};
-
-	$scope.authData = function() {
-		var x =  User.data();
-
-		console.log(x);
-	};
-
-
 
 });
 

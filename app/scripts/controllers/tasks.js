@@ -3,7 +3,6 @@
 glance.controller('TasksCtrl', 
 	function($scope, 
 			 $state, 
-			 FURL,
 			 Nav,
 			 Tasks,
 			 $stateParams,
@@ -29,15 +28,8 @@ glance.controller('TasksCtrl',
 	$scope.members = Tasks.members(milestone);
 	$scope.tasks = Tasks.show(milestone);
 
-	$scope.selectMilestone = function(milestone) {
-		$state.transitionTo("tasks", {mid: milestone.milestoneID});
-		console.log(milestone.milestoneID);
-	};
-
 	$scope.selectTask = function(task) {
-		console.log(task.taskID);
 		$state.transitionTo("task", {tid: task.taskID});
-
 	};
 
 	$scope.addTask = function(e, task) {
@@ -50,6 +42,10 @@ glance.controller('TasksCtrl',
 
 	$scope.milestoneUsers = function() {
 		$state.transitionTo("milestoneusers", {mid: milestone});
+	};
+
+	$scope.message = function() {
+		$state.transitionTo("milestonemessage", {mid: milestone});
 	};
 
 	$scope.addMember = function(member) {

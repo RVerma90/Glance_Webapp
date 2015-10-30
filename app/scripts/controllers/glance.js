@@ -32,6 +32,7 @@ glance.controller('GlanceCtrl', function($scope, Nav, Auth, Glance, Projects, Mi
 	};
 
 	$scope.milestoneSkip = function(milestone) {
+		console.log(milestone);
 		Glance.skipMilestone(milestone);
 	};	
 

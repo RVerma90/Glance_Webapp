@@ -14,7 +14,7 @@
             </i>
           </md-button>
 
-          <md-button class="md-icon-button" aria-label="Contacts Button">
+          <md-button class="md-icon-button" ng-click="message(currentTask)" aria-label="Contacts Button">
             <i md-no-ink class="icon ion-chatbubble md-icon-button" aria-label="Contacts">
             </i>
           </md-button>
@@ -26,15 +26,12 @@
             <span>{{currentTask.description | capitalize}}</span>
           </h6>
           <span flex></span>
-            due in 1 day
-          <md-button class="md-icon-button" aria-label="Completion">
-            84%
-          </md-button>
+            {{currentTask.deadline | deadline}}
       </div>           
     </md-toolbar>    	
-    <md-content class="md-padding">
+    <md-content class="md-padding content-bg">
 
-		<md-subheader class="md-primary md-no-sticky">Members</md-subheader>
+		<md-subheader class="md-primary md-no-sticky seeThrough">Members</md-subheader>
 		<md-list>
     		<md-list-item class="md-2-line contact-item" ng-repeat="member in members" ng-click="role(member)">		          
     			<div class="md-list-item-text compact">
@@ -52,7 +49,7 @@
 		<md-list>
 
 
-		<md-subheader class="md-primary md-no-sticky">Milestone Members</md-subheader>
+		<md-subheader class="md-primary md-no-sticky seeThrough">Milestone Members</md-subheader>
 			<md-list>
 		   		<md-list-item class="md-2-line contact-item" ng-repeat="user in milestoneUsers" ng-click="addTaskMember(user)">
 	         		<img ng-src="{{user.profileImage}}" class="md-avatar" alt="{{user.name}}" />

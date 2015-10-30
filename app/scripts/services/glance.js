@@ -1,6 +1,6 @@
 'user strict';
 
-glance.factory('Glance', function(FURL, Auth, $firebaseObject, $firebaseArray, $timeout, Projects, Milestones, Task) {
+glance.factory('Glance', function(FURL, Auth, $firebaseObject, $firebaseArray, $timeout, Projects, Milestones, Tasks, Task) {
 
 	var ref = new Firebase(FURL);
 
@@ -12,6 +12,7 @@ glance.factory('Glance', function(FURL, Auth, $firebaseObject, $firebaseArray, $
 
 	var projectsRef = ref.child('projects');
 	var	milestonesRef = ref.child('milestones');
+	var	tasksRef = ref.child('tasks');
 
 	var user = ref.getAuth().uid;
 
@@ -50,23 +51,11 @@ glance.factory('Glance', function(FURL, Auth, $firebaseObject, $firebaseArray, $
 						console.log(project);
 
 					});
-			},1000);
+			},500);
 
 
 			return project;
 
-
-
-/*			var project = [];
-
-			projects.$loaded(function() {
-				angular.forEach(projects, function(value, key) {
-					project.push(value.projectID);
-				});
-			});
-
-			return project;
-*/
 		},
 
 		completeProject: function(project) {
@@ -76,18 +65,18 @@ glance.factory('Glance', function(FURL, Auth, $firebaseObject, $firebaseArray, $
 
 			var pid = project.projectID;
 
-			ref.child("users").child(user).child("projects").child(pid).child("completed").set(true);
+			usersRef.child(user).child("projects").child(pid).child("completed").set(true);
 			projectsRef.child(pid).child("usersDone").child(user).set(true);
 
-			var usersDone = $firebaseArray(ref.child("projects").child(pid).child("usersDone"));
+			var usersDone = $firebaseArray(projectsRef.child(pid).child("usersDone"));
 			console.log(usersDone);
 
 			usersDone.$loaded(function() {
-				ref.child("projects").child(pid).child("completed").set(true);
+				projectsRef.child(pid).child("completed").set(true);
 				angular.forEach(usersDone, function(value, key) {
 					
 					if (value.$value == false) {
-						ref.child("projects").child(pid).child("completed").set(false);
+						projectsRef.child(pid).child("completed").set(false);
 					}
 				});
 			});
@@ -98,10 +87,19 @@ glance.factory('Glance', function(FURL, Auth, $firebaseObject, $firebaseArray, $
 			console.log(project.deadline);
 
 			var dayinms = 86400000; //1 day
-
 			project.deadline = project.deadline + dayinms;
 
+			projectsRef.child(project.projectID).update({
+				deadline: project.deadline
+			});
+
 			console.log(project.deadline);
+
+			var date = new Date(project.deadline);
+
+			console.log(date);
+
+			Milestones.syncProjectDetails(project, project.projectID);
 
 		},
 
@@ -111,9 +109,9 @@ glance.factory('Glance', function(FURL, Auth, $firebaseObject, $firebaseArray, $
 			console.log(project.projectID);
 			var pid = project.projectID;
 
-			ref.child("users").child(user).child("projects").child(pid).child("completed").set(false);
-			ref.child("projects").child(pid).child("usersDone").child(user).set(false);	
-			ref.child("projects").child(pid).child("completed").set(false);
+			usersRef.child(user).child("projects").child(pid).child("completed").set(false);
+			projectsRef.child(pid).child("usersDone").child(user).set(false);	
+			projectsRef.child(pid).child("completed").set(false);
 
 		},
 
@@ -149,7 +147,7 @@ glance.factory('Glance', function(FURL, Auth, $firebaseObject, $firebaseArray, $
 						console.log(milestone);
 
 					});
-			},1000);
+			},500);
 
 
 			return milestone;
@@ -162,10 +160,10 @@ glance.factory('Glance', function(FURL, Auth, $firebaseObject, $firebaseArray, $
 			var mid = milestone.milestoneID;
 			var pid = milestone.projectID;
 
-			ref.child("users").child(user).child("milestones").child(mid).child("completed").set(true);
+			usersRef.child(user).child("milestones").child(mid).child("completed").set(true);
 			milestonesRef.child(mid).child("usersDone").child(user).set(true);
 
-			var usersDone = $firebaseArray(ref.child("milestones").child(mid).child("usersDone"));
+			var usersDone = $firebaseArray(milestonesRef.child(mid).child("usersDone"));
 			console.log(usersDone);
 
 			usersDone.$loaded(function() {
@@ -180,23 +178,31 @@ glance.factory('Glance', function(FURL, Auth, $firebaseObject, $firebaseArray, $
 				});
 			});
 
-
-//			tasksRef.child(tid).child("usersDone").child(user).set(true);
-
-			//check task did all users complete, is yes, complete this task in milestones and in tasks
-			//milestonesRef.child(mid).child("tasksCompleted").child(tid).set(true);
-
-
 		},
 
 		skipMilestone: function(milestone) {
-			console.log(milestone.deadline);
-
-			var dayinms = 172800000;
-
-			milestone.deadline = milestone.deadline + dayinms;
 
 			console.log(milestone.deadline);
+
+
+			if(milestone.deadline < milestone.projectDeadline) {
+
+				var dayinms = 86400000; //1 day
+				milestone.deadline = milestone.deadline + dayinms;
+
+				milestonesRef.child(milestone.milestoneID).update({
+					deadline: milestone.deadline
+				});
+
+				projectsRef.child(milestone.projectID).child("milestones").child(milestone.milestoneID).update({
+					deadline: milestone.deadline
+				});
+
+				Tasks.syncMilestoneDetails(milestone, milestone.milestoneID);
+
+			} else {
+				console.log("Project Deadline");
+			}
 
 		},
 
@@ -207,7 +213,7 @@ glance.factory('Glance', function(FURL, Auth, $firebaseObject, $firebaseArray, $
 			var pid = milestone.projectID;
 			console.log(mid);
 
-			ref.child("users").child(user).child("milestones").child(mid).child("completed").set(false);
+			usersRef.child(user).child("milestones").child(mid).child("completed").set(false);
 			milestonesRef.child(mid).child("usersDone").child(user).set(false);
 			milestonesRef.child(mid).child("completed").set(false);
 			projectsRef.child(pid).child("milestones").child(mid).child("completed").set(false);
@@ -242,7 +248,7 @@ glance.factory('Glance', function(FURL, Auth, $firebaseObject, $firebaseArray, $
 						console.log(task);
 
 					});
-			},1000);
+			},500);
 
 
 			return task;
@@ -251,39 +257,62 @@ glance.factory('Glance', function(FURL, Auth, $firebaseObject, $firebaseArray, $
 		completeTask:function(task) {
 			//find a way to get mid&pid to complete in mid&pid
 
-			console.log(task);
+			console.log(task.milestoneID);
+			console.log(task.projectID);
 			var tid = task.taskID;
 			var mid = task.milestoneID;
+			var pid = task.projectID;
 
+			usersRef.child(user).child("tasks").child(tid).child("completed").set(true);
+			tasksRef.child(tid).child("usersDone").child(user).set(true);
 
-			ref.child("users").child(user).child("tasks").child(tid).child("completed").set(true);
-			ref.child("tasks").child(tid).child("usersDone").child(user).set(true);
-
-			var usersDone = $firebaseArray(ref.child("tasks").child(tid).child("usersDone"));
+			var usersDone = $firebaseArray(tasksRef.child(tid).child("usersDone"));
 			console.log(usersDone);
 
 			usersDone.$loaded(function() {
 
-					ref.child("tasks").child(tid).child("completed").set(true);
-					ref.child("milestones").child(mid).child("tasks").child(tid).child("completed").set(true);
+					tasksRef.child(tid).child("completed").set(true);
+					milestonesRef.child(mid).child("tasks").child(tid).child("completed").set(true);
+					milestonesRef.child(mid).child("tasks").child(tid).child("completed").set(true);
+					projectsRef.child(pid).child("tasks").child(tid).child("completed").set(true);
 					angular.forEach(usersDone, function(value, key) {
 						
 						if (value.$value == false) {
-							ref.child("tasks").child(tid).child("completed").set(false);
-							ref.child("milestones").child(mid).child("tasks").child(tid).child("completed").set(false);
+							tasksRef.child(tid).child("completed").set(false);
+							milestonesRef.child(mid).child("tasks").child(tid).child("completed").set(false);
+							projectsRef.child(pid).child("tasks").child(tid).child("completed").set(false);
 						}
 					});
 			});
 		},
 
 		skipTask:function(task) {
-			console.log(task.deadline);
-		
-			var dayinms = 86400000;			
 
-			task.deadline = task.deadline + dayinms;
+			console.log(task.milestoneID);
+			console.log(task.projectID);
 
-			console.log(task.deadline);
+
+			if(task.deadline < task.milestoneDeadline) {
+				
+				var dayinms = 86400000; //1 day
+				task.deadline = task.deadline + dayinms;				
+			
+				tasksRef.child(task.taskID).update({
+					deadline: task.deadline
+				});
+
+				milestonesRef.child(task.milestoneID).child("tasks").child(task.taskID).update({
+					deadline: task.deadline
+				});
+
+				projectsRef.child(task.projectID).child("tasks").child(task.taskID).update({
+					deadline: task.deadline
+				});
+
+				Task.updateTaskUsers(task, task.taskID);
+			} else {
+				console.log("Milestone Deadline");
+			}
 
 
 		},
@@ -291,105 +320,19 @@ glance.factory('Glance', function(FURL, Auth, $firebaseObject, $firebaseArray, $
 		undoTask:function(task) {
 			//find a way to get mid&pid to complete in mid&pid
 			console.log(task);
-			console.log(task.taskID);
+			console.log(task.milestoneID);
+			console.log(task.projectID);
 			var tid = task.taskID;
 			var mid = task.milestoneID;
-//			var mid = task.milestoneID;
+			var pid = task.projectID;
 
-			ref.child("users").child(user).child("tasks").child(tid).child("completed").set(false);
-			ref.child("tasks").child(tid).child("usersDone").child(user).set(false);	
-			ref.child("tasks").child(tid).child("completed").set(false);
-			ref.child("milestones").child(mid).child("tasks").child(tid).child("completed").set(false);
-//			milestonesRef.child(mid).child('tasksDone').child(tid).set(false);
+			usersRef.child(user).child("tasks").child(tid).child("completed").set(false);
+			tasksRef.child(tid).child("usersDone").child(user).set(false);	
+			tasksRef.child(tid).child("completed").set(false);
+			milestonesRef.child(mid).child("tasks").child(tid).child("completed").set(false);
+			projectsRef.child(pid).child("tasks").child(tid).child("completed").set(false);
 
-
-		},
-
-		milestonesOLD: function() {
-
-			var project = Glance.projects();
-
-			var milestone = [];
-			var length = project.length;
-
-			//instead of timeout, change to promise resolve
-
-			$timeout(function() {
-				for (var i = 0; i < project.length; i++) {
-
-					var milestones = $firebaseArray(projectsRef.child(project[i]).child('milestones'));
-
-					milestones.$loaded(function(data) {
-						data.forEach(function(entry) {
-							var now = (new Date).getTime();
-							var daysToDeadline = (entry.deadline - now)/86400000; //day in milliseconds
-							var order = entry.priority/daysToDeadline;
-
-							entry.order = order;
-
-							milestone.push(entry);
-						});
-
-						return milestone;
-					}).then(function(data) {
-						milestone = data;
-
-						milestone.sort(function(a, b) {
-							return parseFloat(b.order) - parseFloat(a.order);
-
-
-						});
-
-						console.log(milestone);
-
-					});
-				};
-			},2000);
-
-
-			return milestone;
-		},	
-
-		tasksOLD: function() {
-
-			var project = Glance.projects();
-
-			var task = [];
-			var length = project.length;
-
-			$timeout(function() {
-				for (var i = 0; i < project.length; i++) {
-
-					var tasks = $firebaseArray(projectsRef.child(project[i]).child('tasks'));
-
-					tasks.$loaded(function(data) {
-						data.forEach(function(entry) {
-							var now = (new Date).getTime();
-							var daysToDeadline = (entry.deadline - now)/86400000; //day in milliseconds
-							var order = entry.priority/daysToDeadline;
-
-							entry.order = order;
-
-							task.push(entry);
-						});
-
-						return task;
-					}).then(function(data) {
-						task = data;
-
-						task.sort(function(a, b) {
-							return parseFloat(b.order) - parseFloat(a.order);
-						});
-						console.log(task);
-
-					});
-				};
-			},2000);
-
-
-			return task;
 		}
-
 
 	};
 

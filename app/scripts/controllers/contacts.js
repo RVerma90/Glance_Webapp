@@ -1,6 +1,6 @@
 'use strict';
 
-glance.controller('ContactsCtrl', function($scope, Nav, FURL, Contacts, Auth, $mdToast) {
+glance.controller('ContactsCtrl', function($scope, Nav, Contacts, $mdToast) {
 
 	$scope.toggleNavbar = function() {
 	  Nav.toggleNavbar();
@@ -24,7 +24,6 @@ glance.controller('ContactsCtrl', function($scope, Nav, FURL, Contacts, Auth, $m
 		Contacts.searchEmail($scope.email);
 
 		$scope.email = '';
-
 
 		$mdToast.show($mdToast.simple().content('Request Sent'));
 

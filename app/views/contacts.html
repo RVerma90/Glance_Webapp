@@ -1,12 +1,17 @@
 	<md-toolbar class="md-tall toolbar-bg" layout="row">
-      	<md-button ng-click="toggleNavbar()" class="md-icon-button" hide-lg aria-label="Sidenav">
-       		<i md-no-ink class="icon ion-navicon md-icon-button" aria-label="Sidenav Icon">
-          </i>           
-      	</md-button>      
+      	
+		<div class="md-toolbar-tools">
+	      	<md-button ng-click="toggleNavbar()" class="md-icon-button" hide-lg aria-label="Sidenav">
+	       		<i md-no-ink class="icon ion-navicon md-icon-button" aria-label="Sidenav Icon">
+	          </i>           
+	      	</md-button>      
 
-		<h1 class="md-toolbar-tools">Contacts</h1>
+			<h1>
+				<span>Contacts</span>
+			</h1>
+		</div>
 	</md-toolbar>
-    <md-content class="md-padding">
+    <md-content class="md-padding content-bg">
 
 		<form name="contactrequest" ng-submit="search()" layout="row">
 			<md-input-container flex>
@@ -14,11 +19,11 @@
 				<input ng-model="email">
 			</md-input-container>
 			<md-button ng-click="search()" type="submit" value="Post" class="md-primary">
-		      	  		Request
+		      	Request
 	   		</md-button>
 		</form>
 
-		<md-subheader class="md-primary md-no-sticky">Requests</md-subheader>
+		<md-subheader class="md-primary md-no-sticky seeThrough">Requests</md-subheader>
 		<md-list>
 			<md-list-item class="md-2-line contact-item slide" ng-repeat="request in requests" ng-click="acceptRequest(request)">
 	       		<img ng-src="{{contact.profileImage}}" class="md-avatar" alt="{{request.name}}" />
@@ -34,7 +39,7 @@
 		    </md-list-item>
 		<md-list>  
 
-		<md-subheader class="md-primary md-no-sticky">Contacts</md-subheader>
+		<md-subheader class="md-primary md-no-sticky seeThrough">Contacts</md-subheader>
 		<md-list>
 			<md-list-item class="md-2-line contact-item slide" ng-repeat="contact in contacts">
 	       		<img ng-src="{{contact.profileImage}}" class="md-avatar" alt="{{contact.name}}" />

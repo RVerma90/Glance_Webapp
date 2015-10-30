@@ -3,7 +3,6 @@
 glance.controller('ProjectsCtrl', 
 	function($scope, 
 			 $state, 
-			 FURL,
 			 Nav,
 			 Projects,
 			 $stateParams) {
@@ -20,7 +19,6 @@ glance.controller('ProjectsCtrl',
 
 	$scope.selectProject = function(project) {
 		$state.transitionTo("milestones", {pid: project.projectID});
-		//console.log(project.projectID);
 	};
 
 	$scope.addProject = function(e) {

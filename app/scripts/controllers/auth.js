@@ -3,7 +3,7 @@
 glance.controller('AuthCtrl', function($scope, $state, $location, Auth) {
 
   if(Auth.signedIn()) {
-    $state.transitionTo('glanceboard');
+    $state.transitionTo('glance');
   } 
 
 	$scope.currentUser = Auth.user;
@@ -26,7 +26,7 @@ glance.controller('AuthCtrl', function($scope, $state, $location, Auth) {
 		Auth.registerGoogle()
 		.then(function() {
 			console.log('Logged in as: {{google.user}}');
-			//change state to glanceboard + uid			
+			//change state to glance + uid			
 		})
 		.catch(function(error) {
 			console.log("Google " + error);
@@ -38,7 +38,7 @@ glance.controller('AuthCtrl', function($scope, $state, $location, Auth) {
 
 		Auth.login(user)
 		.then(function() {
-			$state.go("glanceboard");
+			$state.go("glance");
 		})
 		.catch(function(err) {
 			console.log('Could not login');

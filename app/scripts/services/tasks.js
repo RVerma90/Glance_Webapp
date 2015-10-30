@@ -1,14 +1,15 @@
 'user strict';
 
-glance.factory('Tasks', function(FURL, Auth, $mdDialog, $firebaseAuth, $firebaseObject, $firebaseArray, $stateParams) {
+glance.factory('Tasks', function(FURL, Auth, Task, $mdDialog, $firebaseAuth, $firebaseObject, $firebaseArray, $state, $stateParams) {
 
 	var ref = new Firebase(FURL);
 	var FBtasks = $firebaseArray(ref.child('tasks'));
 
-
+	var usersRef = ref.child('users');
 	var projectsRef = ref.child('projects');
 	var milestonesRef = ref.child('milestones');
 	var tasksRef = ref.child('tasks');
+	
 	var milestone = $stateParams.mid;
 	
 	var user = ref.getAuth().uid;
@@ -28,12 +29,12 @@ glance.factory('Tasks', function(FURL, Auth, $mdDialog, $firebaseAuth, $firebase
 					vm.milestone = {};
 					vm.milestone = currentMilestone;
 
-					vm.minDate = new Date();
-					vm.maxDate = new Date(vm.milestone.projectDeadline);
-
 					var pid = vm.milestone.projectID;
 
 					var mid = $stateParams.mid;
+
+					vm.minDate = new Date();
+					vm.maxDate = new Date(vm.milestone.projectDeadline);
 
 					vm.milestone.deadline = new Date(vm.milestone.deadline);
 
@@ -56,20 +57,17 @@ glance.factory('Tasks', function(FURL, Auth, $mdDialog, $firebaseAuth, $firebase
 							deadline: vm.milestone.deadline
 						});
 
-
 						var users = Tasks.syncMilestoneDetails(vm.milestone, mid);
-						$mdDialog.hide();
-
 
 						$mdDialog.hide();
 					};
 
 					vm.complete = function() {
 
-						ref.child("users").child(user).child("milestones").child(mid).child("completed").set(true);
+						usersRef.child(user).child("milestones").child(mid).child("completed").set(true);
 						milestonesRef.child(mid).child("usersDone").child(user).set(true);
 
-						var usersDone = $firebaseArray(ref.child("milestones").child(mid).child("usersDone"));
+						var usersDone = $firebaseArray(milestonesRef.child(mid).child("usersDone"));
 						console.log(usersDone);
 
 						usersDone.$loaded(function() {
@@ -78,7 +76,7 @@ glance.factory('Tasks', function(FURL, Auth, $mdDialog, $firebaseAuth, $firebase
 							angular.forEach(usersDone, function(value, key) {
 
 								if (value.$value == false) {
-									ref.child("milestones").child(mid).child("completed").set(false);
+									milestonesRef.child(mid).child("completed").set(false);
 									projectsRef.child(pid).child("milestones").child(mid).child("completed").set(false);
 								}
 							});
@@ -90,6 +88,44 @@ glance.factory('Tasks', function(FURL, Auth, $mdDialog, $firebaseAuth, $firebase
 					};
 
 					vm.remove = function() {
+
+						var msTasks = $firebaseObject(milestonesRef.child(mid).child("tasks"));
+
+						msTasks.$loaded(function() {
+							angular.forEach(msTasks, function(value, key) {
+
+								var tid = value.taskID;
+
+								console.log(tid);
+
+								tasksRef.child(tid).child("usersDone").child(user).remove();
+								tasksRef.child(tid).child("members").child(user).remove();
+								usersRef.child(user).child("tasks").child(tid).remove();
+
+								var checkUsers = $firebaseObject(ref.child("tasks").child(tid).child("members"));
+
+								checkUsers.$loaded(function() {
+									var users = [];
+									angular.forEach(checkUsers, function(value, key) {
+										console.log(value);
+										console.log(key);
+
+										users.push(value);
+
+									});
+
+									console.log(users);
+									console.log(users.length);
+
+									if(users.length == 0) {
+										tasksRef.child(tid).remove();
+										milestonesRef.child(mid).child('tasks').child(tid).remove();
+										projectsRef.child(pid).child("tasks").child(tid).remove();
+									} 
+								});
+
+							});
+						});
 
 						milestonesRef.child(mid).child("usersDone").child(user).remove();
 						milestonesRef.child(mid).child("members").child(user).remove();
@@ -116,6 +152,8 @@ glance.factory('Tasks', function(FURL, Auth, $mdDialog, $firebaseAuth, $firebase
 						});
 
 						$mdDialog.hide();
+
+						$state.transitionTo("milestones", {pid: pid});
 					};
 
 					
@@ -247,6 +285,7 @@ glance.factory('Tasks', function(FURL, Auth, $mdDialog, $firebaseAuth, $firebase
 					vm.task = task;
 
 					var mid = $stateParams.mid;
+					var pid = '';
 
 					var milestone = Tasks.milestone(mid);
 					var milestoneDeadline = '';
@@ -255,6 +294,7 @@ glance.factory('Tasks', function(FURL, Auth, $mdDialog, $firebaseAuth, $firebase
 						milestoneDeadline = m.deadline;
 						vm.minDate = new Date();
 						vm.maxDate = new Date(milestoneDeadline);
+						pid = m.projectID;
 					});
 
 					vm.add = function(task) {
@@ -262,10 +302,10 @@ glance.factory('Tasks', function(FURL, Auth, $mdDialog, $firebaseAuth, $firebase
 						task.startDate = Firebase.ServerValue.TIMESTAMP;
 						task.completed = false;
 						task.milestoneID = mid;
+						task.projectID = pid;
 						task.milestoneDeadline = milestoneDeadline;
 
 						var date = new Date(task.deadline);
-
 						task.deadline = date.getTime();
 
 						var x = Math.floor((Math.random() * 100) + 200);
@@ -273,11 +313,16 @@ glance.factory('Tasks', function(FURL, Auth, $mdDialog, $firebaseAuth, $firebase
 
 						if(task.description == null) {
 							task.description = '';
-						}	
+						};	
 
 						if(task.priority == null) {
-							task.priority = 0;
-						}													
+							task.priority = 1;
+						};
+
+						if(isNaN(task.deadline)) {
+							var now = new Date();
+							task.deadline = now.getTime() + 172800000; //2 days
+						};
 
 						FBtasks.$add(task)
 						.then(function(newTask) {
@@ -287,6 +332,7 @@ glance.factory('Tasks', function(FURL, Auth, $mdDialog, $firebaseAuth, $firebase
 								title: task.title,
 								description: task.description,
 								milestoneID: task.milestoneID,
+								projectID: task.projectID,
 								image: task.image,
 								completed: false,
 								priority: task.priority,
@@ -440,25 +486,3 @@ glance.factory('Tasks', function(FURL, Auth, $mdDialog, $firebaseAuth, $firebase
 	return Tasks;
 
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

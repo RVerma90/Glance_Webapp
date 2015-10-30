@@ -1,0 +1,52 @@
+<md-toolbar class="md-tall toolbar-bg" ng-model="project">
+  <div>
+    <div class="md-toolbar-tools">
+        <md-button ng-click="toggleNavbar()" class="md-icon-button" hide-lg aria-label="Sidenav">
+            <i md-no-ink class="icon ion-navicon md-icon-button" aria-label="Sidenav Icon">
+            </i>           
+        </md-button>    
+   
+        <h1>
+          <span>{{project.title}}</span>
+          <i md-no-ink class="icon ion-chatbubble md-icon-button" aria-label="Contacts">
+          </i>          
+        </h1>
+        <span flex></span>
+
+    </div>
+
+  </div>
+</md-toolbar>
+<md-content class="chat content-bg">
+
+  <div class="message-list">
+    <div class="message-wrapper" ng-repeat="message in messages" auto-scroll class="">
+      <div class="message slide" ng-class="message.uid === currentUser.userData.uid ? 'message-mine' : 'message-other'">
+        
+        <div>
+          <p class="message-timestamp">{{message.timestamp | hourMinute}}</p>
+          <p class="md-primary message-sender">{{message.sender | capitalize}}</p><br><br>
+          <p class="message-text">{{message.text}}</p>
+          
+        </div>
+
+      </div>
+    </div>
+  </div>
+<br>
+
+
+</md-content>
+<md-bottom-sheet>
+
+  <form class="md-padding" name="sendmessage" layout="row">
+    <md-input-container flex>
+      <label>New Message</label>
+      <input ng-model="message">
+    </md-input-container>
+    <md-button aria-label="send message" ng-click="sendMessage(message)" type="submit" value="Post" class="md-primary">
+      <i class=" ion-paper-airplane"></i>
+    </md-button>
+  </form>  
+
+</md-bottom-sheet>

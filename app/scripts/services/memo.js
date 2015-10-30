@@ -27,12 +27,20 @@ glance.factory('Memo', function(Glance) {
 
 			var memos = [];
 
-			memos.push(p);
-			memos.push(m);
-			memos.push(t);
+			p.forEach(function(entry) {
+				console.log(entry);
+				memos.push(entry);
+			});
 
-//			console.log(memos);
+			m.forEach(function(entry) {
+				console.log(entry);
+				memos.push(entry);
+			});
 
+			t.forEach(function(entry) {
+				console.log(entry);
+				memos.push(entry);
+			});
 
 
 			memos.sort(function(a, b) {

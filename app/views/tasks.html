@@ -19,7 +19,7 @@
             </i>
           </md-button>
 
-          <md-button class="md-icon-button" aria-label="Contacts Button">
+          <md-button class="md-icon-button" ng-click="message(currentMilestone)" aria-label="Contacts Button">
             <i md-no-ink class="icon ion-chatbubble md-icon-button" aria-label="Contacts">
             </i>
           </md-button>
@@ -31,25 +31,21 @@
             <span>{{currentMilestone.description | capitalize}}</span>
           </h6>
           <span flex></span>
-            due in 4 days
-          <md-button class="md-icon-button" aria-label="Completion">
-            24%
-          </md-button>
-
+            {{currentMilestone.deadline | deadline}}
       </div>        
 
     </md-toolbar>    
-    <md-content class="md-padding">    
-      
-      <md-subheader class="md-primary md-no-sticky">Tasks</md-subheader>
+    <md-content class="md-padding content-bg">    
+
+      <md-subheader class="md-primary md-no-sticky seeThrough">Tasks</md-subheader>
       <md-list>
-        <md-list-item class="md-2-line contact-item slide" ng-repeat="task in tasks " ng-click="selectTask(task)">
+        <md-list-item class="md-2-line contact-item slide" ng-repeat="task in tasks" ng-click="selectTask(task)">
           <img ng-src="{{task.image}}" class="md-avatar"/>
           <div class="md-list-item-text compact">  
             <h3>{{task.title}}</h3>
             <p class="md-primary">{{task.description}}</p>
-            <md-checkbox class="md-secondary" ng-model="task.completed"></md-checkbox>
-<!--            <i md-no-ink ng-click="updateTask($event, task)" class="icon ion-edit md-icon-button md-secondary" aria-label="Update Task">
+<!--            <md-checkbox class="md-secondary" ng-model="task.completed"></md-checkbox>
+            <i md-no-ink ng-click="updateTask($event, task)" class="icon ion-edit md-icon-button md-secondary" aria-label="Update Task">
             </i> -->
           </div>
           <md-divider ng-if="!$last"></md-divider>

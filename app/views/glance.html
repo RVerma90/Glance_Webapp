@@ -1,18 +1,23 @@
     <md-toolbar class="md-tall toolbar-bg" layout="row">
-      <md-button ng-click="toggleNavbar()" class="md-icon-button" hide-lg aria-label="Sidenav">
-          <i md-no-ink class="icon ion-navicon md-icon-button" aria-label="Sidenav Icon">
-          </i>           
-      </md-button>      
-      <h1 class="md-toolbar-tools">Glance</h1>
+      <div class="md-toolbar-tools">
+        <md-button ng-click="toggleNavbar()" class="md-icon-button" hide-lg aria-label="Sidenav">
+            <i md-no-ink class="icon ion-navicon md-icon-button" aria-label="Sidenav Icon">
+            </i>           
+        </md-button>      
+        <h1>
+          <span>Glance</span>
+        </h1>
+      </div>
     </md-toolbar>    
-    <md-content class="md-padding">
+    <md-content class="md-padding content-bg">
 
-        <md-subheader class="md-primary md-no-sticky">Tasks and Milestones</md-subheader>
+        <md-subheader class="md-primary md-no-sticky seeThrough">Upcoming</md-subheader>
 
          <md-card ng-repeat="task in tasks | filter:{completed:false}" class="glanceplate slide">
             <md-card-content class="glanceplateheight">
               <p class="md-title">{{task.title | capitalize}}</p>
               <p>{{task.description | capitalize}}</p>
+              <p>{{task.deadline | deadline}}</p>
             </md-card-content>
             <div class="md-actions" layout="row" layout-align="end center">
               <md-button ng-click="taskSkip(task)" class="md-accent">+1</md-button>
@@ -24,6 +29,7 @@
             <md-card-content class="glanceplateheight">
               <p class="md-title">{{milestone.title | capitalize}}</p>
               <p>{{milestone.description | capitalize}}</p>
+              <p>{{milestone.deadline | deadline}}</p>
             </md-card-content>
             <div class="md-actions" layout="row" layout-align="end center">
               <md-button ng-click="milestoneSkip(milestone)" class="md-accent">+1</md-button>
@@ -35,6 +41,7 @@
             <md-card-content class="glanceplateheight">
               <p class="md-title">{{project.title | capitalize}}</p>
               <p>{{project.description | capitalize}}</p>
+              <p>{{project.deadline | deadline}}</p>
             </md-card-content>
             <div class="md-actions" layout="row" layout-align="end center">
               <md-button ng-click="projectSkip(project)" class="md-accent">+1</md-button>
@@ -42,7 +49,7 @@
             </div>
           </md-card>          
 
-        <md-subheader class="md-primary md-no-sticky">Completed</md-subheader>      
+        <md-subheader class="md-primary md-no-sticky seeThrough">Completed</md-subheader>      
          <md-card ng-repeat="task in tasks | filter:{completed:true}" class="glanceplate slide">
             <md-card-content class="glanceplateheight">
               <p class="md-title">{{task.title | capitalize}}</p>
